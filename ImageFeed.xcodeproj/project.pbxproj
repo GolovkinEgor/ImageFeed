@@ -107,7 +107,6 @@
 		B73641CF2CEF841300FF2CF7 /* ImageFeed */ = {
 			isa = PBXGroup;
 			children = (
-				B736424B2D00C9BF00FF2CF7 /* SingleImageView */,
 				B73641D02CEF841300FF2CF7 /* AppDelegate.swift */,
 				B73641D22CEF841300FF2CF7 /* SceneDelegate.swift */,
 				B73641D62CEF841300FF2CF7 /* Main.storyboard */,
@@ -115,6 +114,7 @@
 				B73641DE2CEF841400FF2CF7 /* LaunchScreen.storyboard */,
 				B73641E12CEF841400FF2CF7 /* Info.plist */,
 				B73641D92CEF841300FF2CF7 /* ImageFeed.xcdatamodeld */,
+				B736424B2D00C9BF00FF2CF7 /* SingleImageView */,
 				B73642472CFC7E1B00FF2CF7 /* Profile */,
 				B73642442CF77C0E00FF2CF7 /* ImagesList */,
 			);

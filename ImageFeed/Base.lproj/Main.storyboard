@@ -233,13 +233,14 @@
         <scene sceneID="N94-25-qem">
             <objects>
                 <viewController id="IWZ-g7-bMJ" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="3o0-dg-ERI">
+                    <view key="view" contentMode="scaleAspectFit" id="3o0-dg-ERI">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="0my-Ft-fOv" userLabel="imageView" customClass="SingleImageViewController" customModule="ImageFeed" customModuleProvider="target">
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="0my-Ft-fOv" userLabel="imageView" customClass="SingleImageViewController">
                                 <rect key="frame" x="0.0" y="48" width="414" height="814"/>
                                 <color key="backgroundColor" name="BackGround Figma"/>
+                                <accessibility key="accessibilityConfiguration" identifier="imageView"/>
                             </imageView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="XFn-xa-2Yg"/>
