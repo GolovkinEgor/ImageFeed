@@ -229,30 +229,6 @@
                                         <color key="backgroundColor" name="BackGround Figma"/>
                                         <accessibility key="accessibilityConfiguration" identifier="imageView"/>
                                     </imageView>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wQp-4m-PvO">
-                                        <rect key="frame" x="28" y="8" width="48" height="48"/>
-                                        <constraints>
-                                            <constraint firstAttribute="width" constant="48" id="Hgu-v8-LX7"/>
-                                            <constraint firstAttribute="height" constant="48" id="Or7-OE-5So"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" image="Backward"/>
-                                        <connections>
-                                            <action selector="didTapBackButton" destination="IWZ-g7-bMJ" eventType="touchUpInside" id="9VC-tr-FRF"/>
-                                        </connections>
-                                    </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLk-fm-RlA">
-                                        <rect key="frame" x="202" y="829" width="50" height="50"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="50" id="ZRN-aT-sWn"/>
-                                            <constraint firstAttribute="width" constant="50" id="i8Q-ZC-zrI"/>
-                                        </constraints>
-                                        <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                        <state key="normal" image="Image 2"/>
-                                        <connections>
-                                            <action selector="didTapShareButton:" destination="IWZ-g7-bMJ" eventType="touchUpInside" id="XuE-GP-2qb"/>
-                                        </connections>
-                                    </button>
                                 </subviews>
                                 <viewLayoutGuide key="contentLayoutGuide" id="JIr-ij-dH3"/>
                                 <viewLayoutGuide key="frameLayoutGuide" id="vve-Vj-3UG"/>
@@ -260,23 +236,46 @@
                                     <outlet property="delegate" destination="IWZ-g7-bMJ" id="IGt-zf-XWA"/>
                                 </connections>
                             </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="SLk-fm-RlA">
+                                <rect key="frame" x="182" y="829" width="50" height="50"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="ZRN-aT-sWn"/>
+                                    <constraint firstAttribute="width" constant="50" id="i8Q-ZC-zrI"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="Image 2"/>
+                                <connections>
+                                    <action selector="didTapShareButton:" destination="IWZ-g7-bMJ" eventType="touchUpInside" id="XuE-GP-2qb"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wQp-4m-PvO">
+                                <rect key="frame" x="8" y="8" width="48" height="48"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="48" id="Hgu-v8-LX7"/>
+                                    <constraint firstAttribute="height" constant="48" id="Or7-OE-5So"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="Backward"/>
+                                <connections>
+                                    <action selector="didTapBackButton" destination="IWZ-g7-bMJ" eventType="touchUpInside" id="9VC-tr-FRF"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="XFn-xa-2Yg"/>
                         <color key="backgroundColor" name="BackGround Figma"/>
                         <constraints>
+                            <constraint firstItem="XFn-xa-2Yg" firstAttribute="bottom" secondItem="SLk-fm-RlA" secondAttribute="bottom" constant="17" id="C04-8N-4V9"/>
                             <constraint firstItem="1qE-B7-E1B" firstAttribute="top" secondItem="3o0-dg-ERI" secondAttribute="top" id="HqC-qU-Xz4"/>
+                            <constraint firstItem="wQp-4m-PvO" firstAttribute="top" secondItem="XFn-xa-2Yg" secondAttribute="top" constant="8" id="IMa-mk-VcQ"/>
+                            <constraint firstItem="wQp-4m-PvO" firstAttribute="leading" secondItem="XFn-xa-2Yg" secondAttribute="leading" constant="8" id="Qlj-UT-cHI"/>
+                            <constraint firstItem="SLk-fm-RlA" firstAttribute="centerX" secondItem="XFn-xa-2Yg" secondAttribute="centerX" id="SZx-5R-use"/>
                             <constraint firstItem="XFn-xa-2Yg" firstAttribute="trailing" secondItem="1qE-B7-E1B" secondAttribute="trailing" constant="-20" id="THV-Ts-Q4W"/>
-                            <constraint firstItem="SLk-fm-RlA" firstAttribute="centerX" secondItem="XFn-xa-2Yg" secondAttribute="centerX" id="ZQK-AH-uNy"/>
-                            <constraint firstItem="wQp-4m-PvO" firstAttribute="top" secondItem="XFn-xa-2Yg" secondAttribute="top" constant="8" id="aRn-Iu-aaf"/>
-                            <constraint firstItem="XFn-xa-2Yg" firstAttribute="bottom" secondItem="SLk-fm-RlA" secondAttribute="bottom" constant="17" id="k7k-Kv-jQJ"/>
                             <constraint firstAttribute="bottom" secondItem="1qE-B7-E1B" secondAttribute="bottom" id="ph6-iX-Ojy"/>
-                            <constraint firstItem="wQp-4m-PvO" firstAttribute="leading" secondItem="XFn-xa-2Yg" secondAttribute="leading" constant="8" id="w71-4y-eW6"/>
                             <constraint firstItem="1qE-B7-E1B" firstAttribute="leading" secondItem="XFn-xa-2Yg" secondAttribute="leading" constant="-20" id="zst-Tq-n7U"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Wf1-vd-AIv"/>
                     <connections>
-                        <outlet property="imageView" destination="0my-Ft-fOv" id="p5b-Aj-X1z"/>
                         <outlet property="scrollView" destination="1qE-B7-E1B" id="6fH-TD-957"/>
                     </connections>
                 </viewController>
