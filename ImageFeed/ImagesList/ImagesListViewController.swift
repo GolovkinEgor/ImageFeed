@@ -23,7 +23,7 @@ final class ImagesListViewController: UIViewController {
             }
 
             let image = UIImage(named: photosName[indexPath.row])
-           
+            
             viewController.image = image
         } else {
             super.prepare(for: segue, sender: sender)
@@ -72,9 +72,8 @@ extension ImagesListViewController {
 }
 
 extension ImagesListViewController: UITableViewDelegate {
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) { 
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: showSingleImageSegueIdentifier, sender: indexPath)
-        
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {

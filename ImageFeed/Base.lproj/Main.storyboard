@@ -227,7 +227,6 @@
                                         <rect key="frame" x="20" y="20" width="414" height="896"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="BackGround Figma"/>
-                                        <accessibility key="accessibilityConfiguration" identifier="imageView"/>
                                     </imageView>
                                 </subviews>
                                 <viewLayoutGuide key="contentLayoutGuide" id="JIr-ij-dH3"/>
@@ -276,6 +275,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="Wf1-vd-AIv"/>
                     <connections>
+                        <outlet property="imageView" destination="0my-Ft-fOv" id="yPo-Xa-zDC"/>
                         <outlet property="scrollView" destination="1qE-B7-E1B" id="6fH-TD-957"/>
                     </connections>
                 </viewController>
