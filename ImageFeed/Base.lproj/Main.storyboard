@@ -129,7 +129,6 @@
         <!--Profile-->
         <scene sceneID="oET-z6-ZMl">
             <objects>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="hat-DG-skt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <viewController title="Profile" id="YID-7w-evW" customClass="ProfileViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="Ln9-1v-vp9">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
@@ -142,6 +141,7 @@
                     </tabBarItem>
                     <navigationItem key="navigationItem" id="fo9-4V-h3O"/>
                 </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="hat-DG-skt" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-797" y="92"/>
         </scene>
@@ -174,6 +174,7 @@
                                     <constraint firstAttribute="height" constant="50" id="ZRN-aT-sWn"/>
                                     <constraint firstAttribute="width" constant="50" id="i8Q-ZC-zrI"/>
                                 </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="Image 2"/>
                                 <connections>
@@ -196,14 +197,15 @@
                         <viewLayoutGuide key="safeArea" id="XFn-xa-2Yg"/>
                         <color key="backgroundColor" name="BackGround Figma"/>
                         <constraints>
+                            <constraint firstAttribute="bottom" secondItem="1qE-B7-E1B" secondAttribute="bottom" id="5A3-3o-gZM"/>
                             <constraint firstItem="XFn-xa-2Yg" firstAttribute="bottom" secondItem="SLk-fm-RlA" secondAttribute="bottom" constant="17" id="C04-8N-4V9"/>
                             <constraint firstItem="1qE-B7-E1B" firstAttribute="top" secondItem="3o0-dg-ERI" secondAttribute="top" id="HqC-qU-Xz4"/>
                             <constraint firstItem="wQp-4m-PvO" firstAttribute="top" secondItem="XFn-xa-2Yg" secondAttribute="top" constant="8" id="IMa-mk-VcQ"/>
                             <constraint firstItem="wQp-4m-PvO" firstAttribute="leading" secondItem="XFn-xa-2Yg" secondAttribute="leading" constant="8" id="Qlj-UT-cHI"/>
                             <constraint firstItem="SLk-fm-RlA" firstAttribute="centerX" secondItem="XFn-xa-2Yg" secondAttribute="centerX" id="SZx-5R-use"/>
                             <constraint firstItem="XFn-xa-2Yg" firstAttribute="trailing" secondItem="1qE-B7-E1B" secondAttribute="trailing" constant="-20" id="THV-Ts-Q4W"/>
-                            <constraint firstAttribute="bottom" secondItem="1qE-B7-E1B" secondAttribute="bottom" id="ph6-iX-Ojy"/>
-                            <constraint firstItem="1qE-B7-E1B" firstAttribute="leading" secondItem="XFn-xa-2Yg" secondAttribute="leading" constant="-20" id="zst-Tq-n7U"/>
+                            <constraint firstItem="1qE-B7-E1B" firstAttribute="leading" secondItem="XFn-xa-2Yg" secondAttribute="leading" constant="-20" id="Tf1-qe-GtR"/>
+                            <constraint firstAttribute="trailing" secondItem="1qE-B7-E1B" secondAttribute="trailing" id="Tms-cs-5qn"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Wf1-vd-AIv"/>
