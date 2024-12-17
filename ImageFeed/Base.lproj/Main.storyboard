@@ -153,10 +153,10 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1qE-B7-E1B">
-                                <rect key="frame" x="0.0" y="0.0" width="454" height="936"/>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1qE-B7-E1B">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" id="0my-Ft-fOv" userLabel="imageView" customClass="SingleImageViewController">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" translatesAutoresizingMaskIntoConstraints="NO" id="0my-Ft-fOv" userLabel="imageView" customClass="SingleImageViewController">
                                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="BackGround Figma"/>
@@ -197,13 +197,13 @@
                         <viewLayoutGuide key="safeArea" id="XFn-xa-2Yg"/>
                         <color key="backgroundColor" name="BackGround Figma"/>
                         <constraints>
+                            <constraint firstItem="1qE-B7-E1B" firstAttribute="leading" secondItem="XFn-xa-2Yg" secondAttribute="leading" id="8Mr-wU-PSR"/>
                             <constraint firstItem="XFn-xa-2Yg" firstAttribute="bottom" secondItem="SLk-fm-RlA" secondAttribute="bottom" id="C04-8N-4V9"/>
-                            <constraint firstItem="XFn-xa-2Yg" firstAttribute="trailing" secondItem="1qE-B7-E1B" secondAttribute="trailing" id="GRV-G0-hi8"/>
                             <constraint firstItem="wQp-4m-PvO" firstAttribute="top" secondItem="XFn-xa-2Yg" secondAttribute="top" constant="8" id="IMa-mk-VcQ"/>
-                            <constraint firstItem="1qE-B7-E1B" firstAttribute="leading" secondItem="XFn-xa-2Yg" secondAttribute="leading" id="Jz7-BB-FGW"/>
                             <constraint firstItem="wQp-4m-PvO" firstAttribute="leading" secondItem="XFn-xa-2Yg" secondAttribute="leading" id="Qlj-UT-cHI"/>
                             <constraint firstItem="SLk-fm-RlA" firstAttribute="centerX" secondItem="XFn-xa-2Yg" secondAttribute="centerX" id="SZx-5R-use"/>
                             <constraint firstAttribute="bottom" secondItem="1qE-B7-E1B" secondAttribute="bottom" id="XCF-VW-rek"/>
+                            <constraint firstItem="XFn-xa-2Yg" firstAttribute="trailing" secondItem="1qE-B7-E1B" secondAttribute="trailing" id="fUP-gj-fO7"/>
                             <constraint firstItem="1qE-B7-E1B" firstAttribute="top" secondItem="3o0-dg-ERI" secondAttribute="top" id="xOq-2G-PSM"/>
                         </constraints>
                     </view>
