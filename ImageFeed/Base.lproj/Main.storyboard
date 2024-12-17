@@ -154,10 +154,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1qE-B7-E1B">
-                                <rect key="frame" x="-20" y="-20" width="454" height="936"/>
+                                <rect key="frame" x="0.0" y="0.0" width="454" height="936"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="0" id="0my-Ft-fOv" userLabel="imageView" customClass="SingleImageViewController">
-                                        <rect key="frame" x="20" y="20" width="414" height="896"/>
+                                        <rect key="frame" x="0.0" y="20" width="414" height="896"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <color key="backgroundColor" name="BackGround Figma"/>
                                     </imageView>
@@ -203,9 +203,8 @@
                             <constraint firstItem="wQp-4m-PvO" firstAttribute="top" secondItem="XFn-xa-2Yg" secondAttribute="top" constant="8" id="IMa-mk-VcQ"/>
                             <constraint firstItem="wQp-4m-PvO" firstAttribute="leading" secondItem="XFn-xa-2Yg" secondAttribute="leading" constant="8" id="Qlj-UT-cHI"/>
                             <constraint firstItem="SLk-fm-RlA" firstAttribute="centerX" secondItem="XFn-xa-2Yg" secondAttribute="centerX" id="SZx-5R-use"/>
-                            <constraint firstItem="XFn-xa-2Yg" firstAttribute="trailing" secondItem="1qE-B7-E1B" secondAttribute="trailing" constant="-20" id="THV-Ts-Q4W"/>
-                            <constraint firstItem="1qE-B7-E1B" firstAttribute="leading" secondItem="XFn-xa-2Yg" secondAttribute="leading" constant="-20" id="Tf1-qe-GtR"/>
-                            <constraint firstAttribute="trailing" secondItem="1qE-B7-E1B" secondAttribute="trailing" id="Tms-cs-5qn"/>
+                            <constraint firstAttribute="trailing" secondItem="1qE-B7-E1B" secondAttribute="trailing" id="THV-Ts-Q4W"/>
+                            <constraint firstItem="1qE-B7-E1B" firstAttribute="leading" secondItem="3o0-dg-ERI" secondAttribute="leading" id="Tf1-qe-GtR"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Wf1-vd-AIv"/>
