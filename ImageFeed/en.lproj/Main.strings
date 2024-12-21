@@ -1,0 +1,18 @@
+
+/* Class = "UIViewController"; title = "ImageList"; ObjectID = "BYZ-38-t0r"; */
+"BYZ-38-t0r.title" = "ImageList";
+
+/* Class = "UILabel"; text = "Екатерина Новикова"; ObjectID = "P86-BF-bdZ"; */
+"P86-BF-bdZ.text" = "Екатерина Новикова";
+
+/* Class = "UIViewController"; title = "Profile"; ObjectID = "YID-7w-evW"; */
+"YID-7w-evW.title" = "Profile";
+
+/* Class = "UILabel"; text = "@ekaterina_nov"; ObjectID = "gLE-yq-Zev"; */
+"gLE-yq-Zev.text" = "@ekaterina_nov";
+
+/* Class = "UILabel"; text = "Hello, World!"; ObjectID = "omk-Ic-qZT"; */
+"omk-Ic-qZT.text" = "Hello, World!";
+
+/* Class = "UILabel"; text = "27 августа 2022"; ObjectID = "zZ7-qv-kLf"; */
+"zZ7-qv-kLf.text" = "27 августа 2022";
