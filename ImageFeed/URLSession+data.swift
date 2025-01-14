@@ -43,7 +43,7 @@ extension URLSession {
                 return
             }
             
-            // Декодируем тело ответа
+           
             if let data = data {
                 do {
                     let decodedResponse = try JSONDecoder().decode(T.self, from: data)

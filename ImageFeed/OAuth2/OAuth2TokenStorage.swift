@@ -1,12 +1,14 @@
-//
-//  OAuth2TokenStorage.swift
-//  ImageFeed
-//
-//  Created by Golovkin Egor on 12.01.2025.
-//
-
 import Foundation
-final     class OAuth2TokenStorage {
-    var token: String?
-}
 
+final class OAuth2TokenStorage {
+    private let tokenKey = "accessToken"
+
+    var token: String? {
+        get {
+            return UserDefaults.standard.string(forKey: tokenKey)
+        }
+        set {
+            UserDefaults.standard.setValue(newValue, forKey: tokenKey)
+        }
+    }
+}
