@@ -5,12 +5,18 @@ final class OAuth2Service {
     private init() {}
 
     func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-        guard let url = URL(string: "https://unsplash.com/oauth/token") else {
+        guard let url  = createURL() else {
             completion(.failure(NSError(domain: "Invalid URL", code: 0, userInfo: nil)))
             return
         }
+         func createURL()->URL?{
+            return URL(string: "https://unsplash.com/oauth/token")
+        }
+        func createRequest(url: URL) -> URLRequest {
+            return URLRequest(url: url)
+        }
 
-        var request = URLRequest(url: url)
+        var request = createRequest(url: url)
         request.httpMethod = "POST"
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
 
@@ -45,23 +51,18 @@ final class OAuth2Service {
             }
 
             do {
-                let tokenResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(tokenResponse.access_token))
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
+                  let tokenResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+                  DispatchQueue.main.async {
+                      completion(.success(tokenResponse.accessToken))
+                  }
+              } catch {
+                  DispatchQueue.main.async {
+                      completion(.failure(error))
+                  }
             }
         }
         task.resume()
     }
 }
 
-struct OAuthTokenResponseBody: Decodable {
-    let access_token: String
-    let token_type: String?
-    let scope: String?
-    let created_at: Int?
-}
+

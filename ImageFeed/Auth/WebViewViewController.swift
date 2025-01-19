@@ -23,17 +23,29 @@ final class WebViewViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         webView.navigationDelegate = self
-
-        var urlComponents = URLComponents(string: Constants.unsplashAuthorizeURLString)!
+        
+        
+        let urlString = Constants.unsplashAuthorizeURLString
+        
+        
+        guard var urlComponents = URLComponents(string: urlString) else {
+            return
+        }
+        
+        
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
             URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
             URLQueryItem(name: "response_type", value: "code"),
             URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
-        let url = urlComponents.url!
+        
+        guard let url = urlComponents.url else {
+            return
+        }
+        
 
         let request = URLRequest(url: url)
         webView.load(request)
@@ -43,12 +55,12 @@ final class WebViewViewController: UIViewController {
 
     @IBAction private func didTapBackButton(_ sender: Any?) {
         delegate?.webViewViewControllerDidCancel(self)
+        dismiss(animated: true)
     }
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        // NOTE: Since the class is marked as `final` we don't need to pass a context.
-        // In case of inhertiance context must not be nil.
+        
         webView.addObserver(
             self,
             forKeyPath: #keyPath(WKWebView.estimatedProgress),

@@ -250,7 +250,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="oVZ-93-RcQ" kind="show" identifier="ShowWebView" id="H4K-FN-7F7"/>
+                                    <segue destination="qfv-xC-NJ0" kind="presentation" modalPresentationStyle="overFullScreen" id="yao-YG-fVg"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -270,49 +270,6 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="duX-gQ-5IS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-1551" y="941"/>
-        </scene>
-        <!--Web View View Controller-->
-        <scene sceneID="uJI-8R-Jtc">
-            <objects>
-                <viewController id="oVZ-93-RcQ" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" contentMode="scaleToFill" id="tTN-Rx-sf6">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fU9-qI-Uen">
-                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <wkWebViewConfiguration key="configuration">
-                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
-                                    <wkPreferences key="preferences"/>
-                                </wkWebViewConfiguration>
-                            </wkWebView>
-                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="kyp-lf-pfW">
-                                <rect key="frame" x="0.0" y="44" width="414" height="4"/>
-                                <color key="progressTintColor" name="BackGround Figma"/>
-                            </progressView>
-                        </subviews>
-                        <viewLayoutGuide key="safeArea" id="7s7-JX-xzH"/>
-                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="fU9-qI-Uen" firstAttribute="top" secondItem="7s7-JX-xzH" secondAttribute="top" id="ClW-rO-tWk"/>
-                            <constraint firstItem="kyp-lf-pfW" firstAttribute="top" secondItem="7s7-JX-xzH" secondAttribute="top" id="Nwc-vX-6GG"/>
-                            <constraint firstItem="fU9-qI-Uen" firstAttribute="bottom" secondItem="tTN-Rx-sf6" secondAttribute="bottom" id="S7b-9o-Ca4"/>
-                            <constraint firstItem="fU9-qI-Uen" firstAttribute="leading" secondItem="tTN-Rx-sf6" secondAttribute="leading" id="eKb-dr-bQd"/>
-                            <constraint firstItem="kyp-lf-pfW" firstAttribute="leading" secondItem="7s7-JX-xzH" secondAttribute="leading" id="kuI-sd-oOg"/>
-                            <constraint firstItem="7s7-JX-xzH" firstAttribute="trailing" secondItem="kyp-lf-pfW" secondAttribute="trailing" id="nNw-3h-WzF"/>
-                            <constraint firstItem="fU9-qI-Uen" firstAttribute="trailing" secondItem="tTN-Rx-sf6" secondAttribute="trailing" id="u5C-gv-Kzw"/>
-                        </constraints>
-                    </view>
-                    <navigationItem key="navigationItem" id="yR8-Eb-F47"/>
-                    <connections>
-                        <outlet property="progressView" destination="kyp-lf-pfW" id="NNv-Vz-GkJ"/>
-                        <outlet property="webView" destination="fU9-qI-Uen" id="7KF-XF-Wpd"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="xec-bO-hpg" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-659" y="945"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="oe7-rx-nv2">
@@ -360,6 +317,63 @@
             </objects>
             <point key="canvasLocation" x="-3496" y="945"/>
         </scene>
+        <!--Web View View Controller-->
+        <scene sceneID="rrW-7V-KY0">
+            <objects>
+                <viewController id="qfv-xC-NJ0" customClass="WebViewViewController" customModule="Image_Feed" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="93h-Xo-7aW">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5F6-qu-mTh">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <wkWebViewConfiguration key="configuration">
+                                    <audiovisualMediaTypes key="mediaTypesRequiringUserActionForPlayback" none="YES"/>
+                                    <wkPreferences key="preferences"/>
+                                </wkWebViewConfiguration>
+                            </wkWebView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UF8-P6-8Sz">
+                                <rect key="frame" x="0.0" y="0.0" width="64" height="44"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="64" id="4SM-ax-590"/>
+                                    <constraint firstAttribute="height" constant="44" id="7Xj-IG-8Nw"/>
+                                </constraints>
+                                <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
+                                <state key="normal" image="nav_back_button"/>
+                                <connections>
+                                    <action selector="didTapBackButton:" destination="qfv-xC-NJ0" eventType="touchUpInside" id="Xo0-g1-Tay"/>
+                                </connections>
+                            </button>
+                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OBq-v5-Ete">
+                                <rect key="frame" x="0.0" y="40" width="414" height="4"/>
+                                <color key="tintColor" red="0.1019607843" green="0.1058823529" blue="0.1333333333" alpha="1" colorSpace="calibratedRGB"/>
+                            </progressView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="1pS-Ol-zOy"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="5F6-qu-mTh" secondAttribute="bottom" id="0lc-5D-vLr"/>
+                            <constraint firstItem="OBq-v5-Ete" firstAttribute="top" secondItem="1pS-Ol-zOy" secondAttribute="top" constant="40" id="9Sm-Pa-Gxf"/>
+                            <constraint firstItem="OBq-v5-Ete" firstAttribute="trailing" secondItem="1pS-Ol-zOy" secondAttribute="trailing" id="D7C-OA-dAn"/>
+                            <constraint firstItem="5F6-qu-mTh" firstAttribute="leading" secondItem="93h-Xo-7aW" secondAttribute="leading" id="DT4-wV-ZTd"/>
+                            <constraint firstItem="OBq-v5-Ete" firstAttribute="leading" secondItem="1pS-Ol-zOy" secondAttribute="leading" id="K2Z-HZ-XEZ"/>
+                            <constraint firstItem="5F6-qu-mTh" firstAttribute="top" secondItem="93h-Xo-7aW" secondAttribute="top" id="XvX-7M-f07"/>
+                            <constraint firstItem="UF8-P6-8Sz" firstAttribute="top" secondItem="1pS-Ol-zOy" secondAttribute="top" id="fZX-uM-je9"/>
+                            <constraint firstItem="UF8-P6-8Sz" firstAttribute="leading" secondItem="1pS-Ol-zOy" secondAttribute="leading" id="nhL-d8-YXV"/>
+                            <constraint firstAttribute="trailing" secondItem="5F6-qu-mTh" secondAttribute="trailing" id="zVW-By-7JL"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="o3N-ik-1VA"/>
+                    <connections>
+                        <outlet property="progressView" destination="OBq-v5-Ete" id="hcW-5Y-MPY"/>
+                        <outlet property="webView" destination="5F6-qu-mTh" id="BUk-o5-KRX"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ebK-Y5-6Ve" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-488" y="960"/>
+        </scene>
     </scenes>
     <resources>
         <image name="0" width="800" height="529.5"/>
@@ -368,6 +382,7 @@
         <image name="Image" width="73" height="76"/>
         <image name="Image 2" width="50" height="50"/>
         <image name="auth_screen_logo" width="60" height="60"/>
+        <image name="nav_back_button" width="24" height="24"/>
         <image name="tab_editorial_active" width="75" height="49"/>
         <image name="tab_editorial_active2" width="75" height="49"/>
         <namedColor name="BackGround Figma">
