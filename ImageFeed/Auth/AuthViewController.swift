@@ -12,6 +12,7 @@ final class AuthViewController: UIViewController {
         if segue.identifier == showWebViewSegueIdentifier {
             guard let webViewViewController = segue.destination as? WebViewViewController else {
                 fatalError("Ошибка перехода на WebView")
+                
             }
             webViewViewController.delegate = self
             print(" Делегат успешно установлен")

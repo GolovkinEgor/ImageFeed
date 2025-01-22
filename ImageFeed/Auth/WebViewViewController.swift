@@ -30,6 +30,7 @@ final class WebViewViewController: UIViewController {
         
         
         guard var urlComponents = URLComponents(string: urlString) else {
+            print("[WebViewViewController]: ошибка выполнения запроса")
             return
         }
         
@@ -42,6 +43,7 @@ final class WebViewViewController: UIViewController {
         ]
         
         guard let url = urlComponents.url else {
+            print("[WebViewViewController]: ошибка выполнения запроса")
             return
         }
         
