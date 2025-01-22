@@ -250,7 +250,7 @@
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                                 <connections>
-                                    <segue destination="qfv-xC-NJ0" kind="presentation" modalPresentationStyle="overFullScreen" id="yao-YG-fVg"/>
+                                    <segue destination="qfv-xC-NJ0" kind="presentation" identifier="ShowWebView" modalPresentationStyle="overFullScreen" id="yao-YG-fVg"/>
                                 </connections>
                             </button>
                         </subviews>
@@ -372,7 +372,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ebK-Y5-6Ve" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-488" y="960"/>
+            <point key="canvasLocation" x="-457" y="941"/>
         </scene>
     </scenes>
     <resources>

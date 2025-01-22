@@ -21,17 +21,18 @@ final class OAuth2Service {
         request.setValue("application/x-www-form-urlencoded", forHTTPHeaderField: "Content-Type")
 
         let bodyParams = [
-            "client_id": Constants.accessKey,
-            "client_secret": Constants.secretKey,
-            "redirect_uri": Constants.redirectURI,
-            "code": code,
-            "grant_type": "authorization_code"
+            URLQueryItem(name: "client_id", value: Constants.accessKey),
+            URLQueryItem(name: "client_secret", value: Constants.secretKey),
+            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
+            URLQueryItem(name: "code", value: code),
+            URLQueryItem(name: "grant_type", value: Constants.authCode)
         ]
 
         request.httpBody = bodyParams
-            .map { "\($0.key)=\($0.value)" }
+            .map { "\($0.name)=\($0.value ?? "")" }
             .joined(separator: "&")
             .data(using: .utf8)
+
 
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {

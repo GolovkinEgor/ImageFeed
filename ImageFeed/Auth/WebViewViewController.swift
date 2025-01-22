@@ -26,8 +26,7 @@ final class WebViewViewController: UIViewController {
         
         webView.navigationDelegate = self
         
-        
-        let urlString = Constants.unsplashAuthorizeURLString
+        let  urlString = Constants.unsplashAuthorizeURLString
         
         
         guard var urlComponents = URLComponents(string: urlString) else {

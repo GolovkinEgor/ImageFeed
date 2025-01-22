@@ -31,7 +31,7 @@ extension URLSession {
                 return
             }
             
-            // Если статус-код не в диапазоне 200-299, выводим ошибку и тело ответа
+            
             guard (200...299).contains(httpResponse.statusCode) else {
                 if let data = data, let responseString = String(data: data, encoding: .utf8) {
                     print("Ошибка от Unsplash: HTTP \(httpResponse.statusCode) - \(responseString)")
