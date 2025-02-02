@@ -1,16 +1,73 @@
 import Foundation
-
+enum AuthServiceError: Error {
+    case invalidRequest
+}
 final class OAuth2Service {
     static let shared = OAuth2Service()
-    private init() {}
 
-    func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
+    private let dataStorage = OAuth2TokenStorage()
+    private let urlSession = URLSession.shared
+             
+       
+       private var task: URLSessionTask?
+       private var lastCode: String?
 
-        
-        
-        guard var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token") else {
-            print("[OAuth2Service]: Ошибка записи urlComponents")
+    private (set) var authToken: String? {
+        get {
+            return dataStorage.token
+        }
+        set {
+            dataStorage.token = newValue
+        }
+    }
+
+    private init() { }
+
+    func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
+        assert(Thread.isMainThread)
+        guard lastCode != code else{
+            completion(.failure(AuthServiceError.invalidRequest))
             return
+        }
+        task?.cancel()
+        lastCode = code
+        guard let request = makeOAuthTokenRequest(code: code) else {
+            completion(.failure(NetworkError.invalidRequest))
+            return
+        }
+        
+        let task = urlSession.dataTask(with: request) { [weak self] data, response, error in
+            DispatchQueue.main.async {
+                defer{
+                self?.task = nil
+                self?.lastCode = nil
+            }
+                if let error = error{
+                    completion(.failure(error))
+                    
+                }
+                guard let data = data else{
+                    completion(.failure(NetworkError.noData))
+                    return
+                }
+                do {
+                    let responseBody = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
+                                    completion(.success(responseBody.token))
+                                } catch {
+                                    completion(.failure(NetworkError.decodingError(error)))
+                                }
+                   }
+               }
+               self.task = task
+               task.resume()
+           }
+
+    private func makeOAuthTokenRequest(code: String) -> URLRequest? {
+        guard
+            var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token")
+        else {
+            print("[OAuth2Service]: Ошибка записи urlComponents")
+            return nil
         }
         
         urlComponents.queryItems = [
@@ -21,47 +78,48 @@ final class OAuth2Service {
             URLQueryItem(name: "grant_type", value: "authorization_code")
         ]
         
-        guard let url = urlComponents.url else {
+        guard let authTokenUrl = urlComponents.url else {
             print("[OAuth2Service]: Ошибка записи urlComponents")
-            return
+            return nil
         }
         
-        var request = URLRequest(url: url)
+        var request = URLRequest(url: authTokenUrl)
         request.httpMethod = "POST"
+        return request
+    }
+
+    
+}
+
+// MARK: - Network Client
+
+extension OAuth2Service {
+    private func object(for request: URLRequest, completion: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) -> URLSessionTask {
+        let decoder = JSONDecoder()
         
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+        let task = urlSession.dataTask(with: request) { data, response, error in
             if let error = error {
-                DispatchQueue.main.async {
-                    print("[OAuth2Service]: ошибка \(error.localizedDescription)")
-                    completion(.failure(error))
-                }
+                completion(.failure(error))
                 return
             }
             
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode),
-                  let data = data else {
-                DispatchQueue.main.async {
-                    print("[OAuth2Service]: ошибка выполнения запроса")
-                    completion(.failure(NSError(domain: "Invalid response", code: 0, userInfo: nil)))
-                }
+            guard let data = data else {
+                completion(.failure(NetworkError.noData))
                 return
             }
             
             do {
-                let tokenResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(tokenResponse.accessToken))
-                }
+                let body = try decoder.decode(OAuthTokenResponseBody.self, from: data)
+                completion(.success(body))
             } catch {
-                DispatchQueue.main.async {
-                    print("[OAuth2Service]: ошибка декодирования \(error.localizedDescription)")
-                    completion(.failure(error))
-                }
+                completion(.failure(NetworkError.decodingError(error)))
             }
         }
+        
         task.resume()
+        return task
     }
-}
+
+        }
 
 

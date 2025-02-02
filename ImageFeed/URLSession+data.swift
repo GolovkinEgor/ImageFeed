@@ -2,65 +2,75 @@
 //  URLSession+data.swift
 //  ImageFeed
 //
-//  Created by Golovkin Egor on 11.01.2025.
+//  Created by Alesia Matusevich on 23/12/2024.
 //
 
 import Foundation
-enum NetworkError: Error {  // 1
+
+enum NetworkError: Error {
     case httpStatusCode(Int)
     case urlRequestError(Error)
     case urlSessionError
+    case invalidRequest
+    case decodingError(Error)
+    case noData
+    case networkError(Error)
 }
 
 extension URLSession {
-    func performRequest<T: Decodable>(with request: URLRequest, decodingType: T.Type, completion: @escaping (Result<T, Error>) -> Void) {
-        let task = dataTask(with: request) { data, response, error in
-            // Проверка на наличие ошибки в запросе
-            if let error = error {
-                DispatchQueue.main.async {
-                    completion(.failure(error))
-                }
-                return
-            }
-            
-            // Проверка статуса ответа
-            guard let httpResponse = response as? HTTPURLResponse else {
-                DispatchQueue.main.async {
-                    completion(.failure(NSError(domain: "Invalid Response", code: 0, userInfo: nil)))
-                }
-                return
-            }
-            
-            
-            guard (200...299).contains(httpResponse.statusCode) else {
-                if let data = data, let responseString = String(data: data, encoding: .utf8) {
-                    print("Ошибка от Unsplash: HTTP \(httpResponse.statusCode) - \(responseString)")
-                }
-                let serverError = NSError(domain: "Server Error", code: httpResponse.statusCode, userInfo: nil)
-                DispatchQueue.main.async {
-                    completion(.failure(serverError))
-                }
-                return
-            }
-            
-           
-            if let data = data {
-                do {
-                    let decodedResponse = try JSONDecoder().decode(T.self, from: data)
-                    DispatchQueue.main.async {
-                        completion(.success(decodedResponse))
-                    }
-                } catch {
-                    // Логирование ошибки декодирования
-                    print("Ошибка декодирования JSON: \(error.localizedDescription)")
-                    DispatchQueue.main.async {
-                        completion(.failure(error))
-                    }
-                }
+    func data(
+        for request: URLRequest,
+        completion: @escaping (Result<Data, Error>) -> Void
+    ) -> URLSessionTask {
+        let fulfillCompletionOnTheMainThread: (Result<Data, Error>) -> Void = { result in
+            DispatchQueue.main.async {
+                completion(result)
             }
         }
-        task.resume()
+        
+        let task = dataTask(with: request, completionHandler: { data, response, error in
+            if let data = data,
+               let response = response,
+               let statusCode = (response as? HTTPURLResponse)?.statusCode {
+                if 200 ..< 300 ~= statusCode {
+                    fulfillCompletionOnTheMainThread(.success(data))
+                } else {
+                    print("[URLSession.dataTask()]: network error (httpStatusCode) \(String(statusCode))")
+                    fulfillCompletionOnTheMainThread(.failure(NetworkError.httpStatusCode(statusCode)))
+                }
+            } else if let error = error {
+                print("[URLSession.dataTask()]: network error (urlRequestError) error: \(error)")
+                fulfillCompletionOnTheMainThread(.failure(NetworkError.urlRequestError(error)))
+            } else {
+                print("[URLSession.dataTask()]: network error (urlSessionError)")
+                fulfillCompletionOnTheMainThread(.failure(NetworkError.urlSessionError))
+            }
+        })
+        return task
+    }
+    
+    func objectTask<T: Decodable>(
+        for request: URLRequest,
+        completion: @escaping (Result<T, Error>) -> Void
+    ) -> URLSessionTask {
+        let decoder = JSONDecoder()
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+        
+        let task = data(for: request) { (result: Result<Data, Error>) in
+            switch result {
+            case .success(let data):
+                do {
+                    let decodingData = try decoder.decode(T.self, from: data)
+                    completion(.success(decodingData))
+                } catch {
+                    print("[URLSession.objectTask()]: decoding error. Objekt: \(T.self). Error: \(error)")
+                    completion(.failure(error))
+                }
+            case .failure(let error):
+                print("[URLSession.objectTask()]: error creating URLSessionTask. Objekt: \(T.self). Error: \(error)")
+                completion(.failure(error))
+            }
+        }
+        return task
     }
 }
-
-

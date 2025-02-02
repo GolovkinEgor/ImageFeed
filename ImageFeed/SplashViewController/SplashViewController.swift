@@ -4,6 +4,8 @@ final class SplashViewController: UIViewController {
     private let showAuthenticationScreenSegueIdentifier = "ShowAuthenticationScreen"
     private let oauth2Service = OAuth2Service.shared
     private let oauth2TokenStorage = OAuth2TokenStorage()
+    private let profileService = ProfileService()
+    
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -26,17 +28,20 @@ final class SplashViewController: UIViewController {
     }
 
     private func fetchOAuthToken(_ code: String) {
-        oauth2Service.fetchAuthToken(code: code) { [weak self] result in
+        oauth2Service.fetchOAuthToken(code) { [weak self] result in
             guard let self = self else { return }
+            
             switch result {
             case .success(let token):
                 self.oauth2TokenStorage.token = token
                 self.switchToTabBarController()
+            
             case .failure(let error):
                 print("Ошибка получения токена: \(error.localizedDescription)")
             }
         }
     }
+
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showAuthenticationScreenSegueIdentifier {
@@ -47,12 +52,34 @@ final class SplashViewController: UIViewController {
             authViewController.delegate = self
         }
     }
+    func fetchProfile(_ token: String) {
+           UIBlockingProgressHUD.show()
+       profileService.fetchProfile(token: token) { [weak self] result in
+               UIBlockingProgressHUD.dismiss()
+
+               guard let self = self else { return }
+
+               switch result {
+               case .success:
+                  self.switchToTabBarController()
+
+               case .failure:
+                   print("Ошибка получения профиля")
+                   
+                   break
+               }
+           }
+       }
 }
+
+        
+        
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        vc.dismiss(animated: true) {
-            self.fetchOAuthToken(code)
+        dismiss(animated: true) { [weak self] in
+            self?.fetchProfile(oauth2TokenStorage)
         }
+        
     }
 }
