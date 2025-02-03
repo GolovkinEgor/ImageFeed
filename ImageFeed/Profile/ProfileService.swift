@@ -18,7 +18,7 @@ struct Profile {
 extension Profile {
     init(result profile: ProfileResult) {
         self.init(username: profile.username,
-                  name: "\(profile.firstName ?? "") \(profile.lastName ?? "")",
+                  name: "\(profile.firstName ?? "") \(profile.lastName ?? "")".trimmingCharacters(in: .whitespaces),
                   loginName: "@\(profile.username)",
                   bio: profile.bio)
     }
@@ -31,8 +31,7 @@ final class ProfileService {
     private var task: URLSessionTask?
     private let jsonDecoder = JSONDecoder()
     
-    var profile: Profile?
-    
+    private(set) var profile: Profile?
     init() {}
     
     func makeProfileURLRequest(token: String) -> URLRequest? {
@@ -53,36 +52,42 @@ final class ProfileService {
     
     
     func fetchProfile(token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-        assert(Thread.isMainThread)
-        
-        task?.cancel()
-        
-        guard let token = OAuth2TokenStorage().token else {
-            completion(.failure(AuthServiceError.invalidRequest))
-            return
-        }
-        
-        guard let request = makeProfileURLRequest(token: token) else {
-            completion(.failure(AuthServiceError.invalidRequest))
-            return
-        }
-        
-        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
-            guard self != nil else { return }
-            
-            switch result {
-            case .success(let profileResult):
-                let profile = Profile(result: profileResult) 
-                completion(.success(profile))
-                
-            case .failure(let error):
-                print("[fetchProfile()]: error creating URLSessionTask. Error: \(error)")
-                completion(.failure(error))
+            task?.cancel()
+
+            guard let request = makeProfileURLRequest(token: token) else {
+                completion(.failure(NetworkError.invalidRequest))
+                return
             }
+
+            let task = urlSession.dataTask(with: request) { [weak self] data, response, error in
+                DispatchQueue.main.async {
+                    guard let self = self else { return }
+
+                    if let error = error {
+                        completion(.failure(error))
+                        return
+                    }
+
+                    guard let data = data else {
+                        completion(.failure(AuthServiceError.noData))
+                        return
+                    }
+
+                    do {
+                        let profileResult = try JSONDecoder().decode(ProfileResult.self, from: data)
+                        let profile = Profile(result: profileResult)
+
+                        
+                        self.profile = profile
+
+                        completion(.success(profile))
+                    } catch {
+                        completion(.failure(NetworkError.decodingError(error)))
+                    }
+                }
+            }
+            
+            self.task = task
+            task.resume()
         }
-        
-        self.task = task
-        task.resume()
     }
-    
-}

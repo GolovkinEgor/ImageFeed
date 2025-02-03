@@ -36,7 +36,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             
             UIBlockingProgressHUD.dismiss()
             switch result {
-            case .success(let token):
+            case .success(let token ):
                 
                 self.delegate?.authViewController(self, didAuthenticateWithCode: code)
             case .failure(let error):
@@ -47,6 +47,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
+        
     }
             
     

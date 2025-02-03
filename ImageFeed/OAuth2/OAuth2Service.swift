@@ -1,6 +1,7 @@
 import Foundation
 enum AuthServiceError: Error {
     case invalidRequest
+    case noData
 }
 final class OAuth2Service {
     static let shared = OAuth2Service()
@@ -25,42 +26,55 @@ final class OAuth2Service {
 
     func fetchOAuthToken(_ code: String, completion: @escaping (Result<String, Error>) -> Void) {
         assert(Thread.isMainThread)
-        guard lastCode != code else{
+        
+        guard lastCode != code else {
             completion(.failure(AuthServiceError.invalidRequest))
             return
         }
+
         task?.cancel()
         lastCode = code
+
         guard let request = makeOAuthTokenRequest(code: code) else {
             completion(.failure(NetworkError.invalidRequest))
             return
         }
-        
+
         let task = urlSession.dataTask(with: request) { [weak self] data, response, error in
             DispatchQueue.main.async {
-                defer{
-                self?.task = nil
-                self?.lastCode = nil
-            }
-                if let error = error{
-                    completion(.failure(error))
-                    
+                defer {
+                    self?.task = nil
+                    self?.lastCode = nil
                 }
-                guard let data = data else{
+
+                if let error = error {
+                    completion(.failure(error))
+                    return
+                }
+
+                guard let data = data else {
                     completion(.failure(NetworkError.noData))
                     return
                 }
+
                 do {
                     let responseBody = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                                    completion(.success(responseBody.token))
-                                } catch {
-                                    completion(.failure(NetworkError.decodingError(error)))
-                                }
-                   }
-               }
-               self.task = task
-               task.resume()
-           }
+                    
+                    
+                    OAuth2TokenStorage().token = responseBody.token
+                    print("[DEBUG] Token saved successfully: \(responseBody.token)")
+
+                    completion(.success(responseBody.token))
+                } catch {
+                    completion(.failure(NetworkError.decodingError(error)))
+                }
+            }
+        }
+        
+        self.task = task
+        task.resume()
+    }
+
 
     private func makeOAuthTokenRequest(code: String) -> URLRequest? {
         guard

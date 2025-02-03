@@ -52,24 +52,7 @@ final class SplashViewController: UIViewController {
             authViewController.delegate = self
         }
     }
-    func fetchProfile(_ token: String) {
-           UIBlockingProgressHUD.show()
-       profileService.fetchProfile(token: token) { [weak self] result in
-               UIBlockingProgressHUD.dismiss()
-
-               guard let self = self else { return }
-
-               switch result {
-               case .success:
-                  self.switchToTabBarController()
-
-               case .failure:
-                   print("Ошибка получения профиля")
-                   
-                   break
-               }
-           }
-       }
+   
 }
 
         
@@ -77,9 +60,30 @@ final class SplashViewController: UIViewController {
 
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
-        dismiss(animated: true) { [weak self] in
-            self?.fetchProfile(oauth2TokenStorage)
+        vc.dismiss(animated: true)
+       
+        guard let token = oauth2TokenStorage.token else {
+            print("[ERROR] oauth2TokenStorage.token is nil!")
+            return
         }
-        
+        fetchProfile(token)
+    }
+
+    private func fetchProfile(_ token: String) {
+        UIBlockingProgressHUD.show()
+        profileService.fetchProfile(token: token) { [weak self] result in
+            UIBlockingProgressHUD.dismiss()
+
+            guard let self = self else { return }
+
+            switch result {
+            case .success:
+               self.switchToTabBarController()
+
+            case .failure:
+                // TODO [Sprint 11] Покажите ошибку получения профиля
+                break
+            }
+        }
     }
 }

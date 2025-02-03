@@ -10,7 +10,7 @@ import UIKit
 final class ProfileViewController: UIViewController {
     
     // MARK: - Private Properties
-    private let profileService = ProfileService()
+    private let profileService = ProfileService.shared
     private let token = "access_token"
     private let profileImageView: UIImageView = {
         let view = UIImageView()
@@ -19,7 +19,7 @@ final class ProfileViewController: UIViewController {
         return view
     }()
     
-    private let userNameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Екатерина Новикова"
         label.textColor = .white
@@ -27,7 +27,7 @@ final class ProfileViewController: UIViewController {
         return label
     }()
     
-    private let userLoginLabel: UILabel = {
+    private let loginNameLabel: UILabel = {
         let label = UILabel()
         label.text = "@ekaterina_nov"
         label.textColor = .gray
@@ -58,26 +58,48 @@ final class ProfileViewController: UIViewController {
     // MARK: - Overrides Methods
     
     override func viewDidLoad() {
-        super.viewDidLoad()
+            super.viewDidLoad()
+            
+
+            if let profile = profileService.profile {
+    
+                updateProfileDetails(profile: profile)
+            } else {
+                fetchUserProfile()
+            }
         setupViews()
         setupСonstraints()
-        
-    }
-    private func fetchUserProfile() {
+        }
+
+        private func fetchUserProfile() {
+            guard let token = OAuth2TokenStorage().token else {
+                print("[ERROR] Token is nil.")
+                return
+            }
+
+
             profileService.fetchProfile(token: token) { [weak self] result in
                 switch result {
                 case .success(let profile):
-                    // Обновляем UI с данными профиля
-                    self?.userNameLabel.text = profile.name
-                    self?.userLoginLabel.text = profile.loginName
-                    self?.descriptionLabel.text = profile.bio
-                    
+                    DispatchQueue.main.async {
+                        self?.updateProfileDetails(profile: profile)
+                    }
+
                 case .failure(let error):
-                    // Выводим ошибку в консоль
-                    print("Ошибка загрузки профиля: \(error.localizedDescription)")
+                    DispatchQueue.main.async {
+                        print("[ERROR] Failed to fetch profile: \(error.localizedDescription)")
+                    }
                 }
             }
         }
+        private func updateProfileDetails(profile: Profile) {
+            nameLabel.text = profile.name
+            loginNameLabel.text = profile.loginName
+            descriptionLabel.text = profile.bio
+            setupViews()
+            setupСonstraints()
+        }
+    
     // MARK: - Private Methods
     
     @objc
@@ -86,33 +108,43 @@ final class ProfileViewController: UIViewController {
     }
     
     private func setupViews() {
-        [profileImageView, userNameLabel, userLoginLabel, descriptionLabel, logoutButton].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview($0)
-        }
+     
+        profileImageView.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        loginNameLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        logoutButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        
+        view.addSubview(profileImageView)
+        view.addSubview(nameLabel)
+        view.addSubview(loginNameLabel)
+        view.addSubview(descriptionLabel)
+        view.addSubview(logoutButton)
     }
+
     
     private func setupСonstraints(){
         NSLayoutConstraint.activate([
-            // фото профиля
+            
             profileImageView.heightAnchor.constraint(equalToConstant: 70),
             profileImageView.widthAnchor.constraint(equalToConstant: 70),
             profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             profileImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             
-            // имя
-            userNameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            userNameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 8),
+         
+            nameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            nameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 8),
             
-            // логин
-            userLoginLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            userLoginLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 8),
+      
+            loginNameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            loginNameLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
             
-            // дискрипшен
+            
             descriptionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            descriptionLabel.topAnchor.constraint(equalTo: userLoginLabel.bottomAnchor, constant: 8),
+            descriptionLabel.topAnchor.constraint(equalTo: loginNameLabel.bottomAnchor, constant: 8),
             
-            // кнопка логаута
+         
             logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             logoutButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor)
         ])
