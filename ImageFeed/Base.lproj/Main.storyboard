@@ -325,7 +325,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5F6-qu-mTh">
+                            <wkWebView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5F6-qu-mTh" userLabel="webView">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <wkWebViewConfiguration key="configuration">
@@ -333,7 +333,7 @@
                                     <wkPreferences key="preferences"/>
                                 </wkWebViewConfiguration>
                             </wkWebView>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UF8-P6-8Sz">
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="UF8-P6-8Sz" userLabel="backButton">
                                 <rect key="frame" x="9" y="9" width="24" height="24"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="24" id="4SM-ax-590"/>
@@ -342,7 +342,7 @@
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
                                 <state key="normal" image="nav_back_button"/>
                                 <connections>
-                                    <action selector="didTapBackButton:" destination="qfv-xC-NJ0" eventType="touchUpInside" id="Xo0-g1-Tay"/>
+                                    <action selector="didTapButton" destination="qfv-xC-NJ0" eventType="touchUpInside" id="azb-OL-3Bs"/>
                                 </connections>
                             </button>
                             <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="OBq-v5-Ete">
@@ -366,6 +366,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="o3N-ik-1VA"/>
                     <connections>
+                        <outlet property="backButton" destination="UF8-P6-8Sz" id="of0-01-Wxc"/>
                         <outlet property="progressView" destination="OBq-v5-Ete" id="hcW-5Y-MPY"/>
                         <outlet property="webView" destination="5F6-qu-mTh" id="BUk-o5-KRX"/>
                     </connections>

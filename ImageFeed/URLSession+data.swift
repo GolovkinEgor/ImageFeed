@@ -1,9 +1,3 @@
-//
-//  URLSession+data.swift
-//  ImageFeed
-//
-//  Created by Alesia Matusevich on 23/12/2024.
-//
 
 import Foundation
 

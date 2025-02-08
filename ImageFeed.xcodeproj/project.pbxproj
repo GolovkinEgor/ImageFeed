@@ -31,6 +31,7 @@
 		B736425D2D33E1D200FF2CF7 /* OAuth2Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = B736425C2D33E1D200FF2CF7 /* OAuth2Service.swift */; };
 		B73642602D33E25100FF2CF7 /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B736425F2D33E25100FF2CF7 /* SplashViewController.swift */; };
 		B73642622D3C053F00FF2CF7 /* OAuthTokenResponseBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73642612D3C053F00FF2CF7 /* OAuthTokenResponseBody.swift */; };
+		B76707342D53BA91000F4F77 /* ProfileImageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B76707332D53BA91000F4F77 /* ProfileImageService.swift */; };
 		B77BA8CC2D43D5F400E671A5 /* ProgressHUD in Frameworks */ = {isa = PBXBuildFile; productRef = B77BA8CB2D43D5F400E671A5 /* ProgressHUD */; };
 /* End PBXBuildFile section */
 
@@ -79,6 +80,7 @@
 		B736425C2D33E1D200FF2CF7 /* OAuth2Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuth2Service.swift; sourceTree = "<group>"; };
 		B736425F2D33E25100FF2CF7 /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		B73642612D3C053F00FF2CF7 /* OAuthTokenResponseBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthTokenResponseBody.swift; sourceTree = "<group>"; };
+		B76707332D53BA91000F4F77 /* ProfileImageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileImageService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -181,6 +183,7 @@
 			children = (
 				B728035A2D4FA1E40048D3CC /* ProfileService.swift */,
 				B73642452CFC7BFE00FF2CF7 /* ProfileViewController.swift */,
+				B76707332D53BA91000F4F77 /* ProfileImageService.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -373,6 +376,7 @@
 				B73642622D3C053F00FF2CF7 /* OAuthTokenResponseBody.swift in Sources */,
 				B73642582D32A21100FF2CF7 /* URLSession+data.swift in Sources */,
 				B73641D32CEF841300FF2CF7 /* SceneDelegate.swift in Sources */,
+				B76707342D53BA91000F4F77 /* ProfileImageService.swift in Sources */,
 				B73642542D2B181100FF2CF7 /* AuthViewController.swift in Sources */,
 				B73642512D1DE1D400FF2CF7 /* Constants.swift in Sources */,
 			);

@@ -5,6 +5,7 @@ final class SplashViewController: UIViewController {
     private let oauth2Service = OAuth2Service.shared
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService()
+    private let profileImageService = ProfileImageService.shared
     
 
     override func viewDidAppear(_ animated: Bool) {
@@ -28,7 +29,7 @@ final class SplashViewController: UIViewController {
     }
 
     private func fetchOAuthToken(_ code: String) {
-        oauth2Service.fetchOAuthToken(code) { [weak self] result in
+        oauth2Service.fetchOAuthToken(code: code) { [weak self] result in
             guard let self = self else { return }
             
             switch result {
@@ -55,9 +56,7 @@ final class SplashViewController: UIViewController {
    
 }
 
-        
-        
-
+    
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true)
@@ -83,6 +82,16 @@ extension SplashViewController: AuthViewControllerDelegate {
             case .failure:
                 // TODO [Sprint 11] Покажите ошибку получения профиля
                 break
+            }
+        }
+    }
+    private func fetchProfileImage(profile:Profile){
+        ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { result in
+            switch result{
+            case .success(let imageURL):
+                print(imageURL)
+            case .failure(let error):
+                print("[fetchProfileImage()]: error getting profile image. Error: \(error)" )
             }
         }
     }

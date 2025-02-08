@@ -1,9 +1,3 @@
-//
-//  ProfileViewController.swift
-//  ImageFeed
-//
-//  Created by Alesia Matusevich on 04/12/2024.
-//
 
 import UIKit
 
@@ -11,6 +5,7 @@ final class ProfileViewController: UIViewController {
     
     // MARK: - Private Properties
     private let profileService = ProfileService.shared
+    private var profileImageServiceObserver: NSObjectProtocol?
     private let token = "access_token"
     private let profileImageView: UIImageView = {
         let view = UIImageView()
@@ -64,9 +59,25 @@ final class ProfileViewController: UIViewController {
             if let profile = profileService.profile {
     
                 updateProfileDetails(profile: profile)
-            } else {
-                fetchUserProfile()
             }
+        else{
+            fetchUserProfile()
+            
+        }
+        
+        profileImageServiceObserver = NotificationCenter.default    // 2
+                    .addObserver(
+                        forName: ProfileImageService.didChangeNotification, // 3
+                        object: nil,                                        // 4
+                        queue: .main                                        // 5
+                    ) { [weak self] _ in
+                        guard let self = self else { return }
+                        self.updateAvatar()                                 // 6
+                    }
+                updateAvatar()                                              // 7
+            
+        
+        
         setupViews()
         setupСonstraints()
         }
@@ -98,6 +109,12 @@ final class ProfileViewController: UIViewController {
             descriptionLabel.text = profile.bio
             setupViews()
             setupСonstraints()
+        }
+    private func updateAvatar() {                                   // 8
+        guard let profileImageURL = ProfileImageService.shared.avatarURL else{return}
+                let url = profileImageURL
+       
+            // TODO [Sprint 11] Обновить аватар, используя Kingfisher
         }
     
     // MARK: - Private Methods

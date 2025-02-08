@@ -38,7 +38,7 @@ final class ProfileService {
     private var task: URLSessionTask?
     private let jsonDecoder = JSONDecoder()
     
-    private(set) var profile: Profile?
+     var profile: Profile?
     init() {}
     
     func makeProfileURLRequest(token: String) -> URLRequest? {
@@ -76,7 +76,7 @@ final class ProfileService {
                     }
 
                     guard let data = data else {
-                        completion(.failure(AuthServiceError.noData))
+                        completion(.failure(NetworkError.noData))
                         return
                     }
 
