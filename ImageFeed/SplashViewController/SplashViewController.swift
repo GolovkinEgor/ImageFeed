@@ -34,7 +34,7 @@ final class SplashViewController: UIViewController {
             
             switch result {
             case .success(let token):
-                self.oauth2TokenStorage.token = token
+                self.oauth2TokenStorage.token = token.token
                 self.switchToTabBarController()
             
             case .failure(let error):
@@ -56,7 +56,9 @@ final class SplashViewController: UIViewController {
    
 }
 
-    
+        
+        
+
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true)
@@ -70,7 +72,7 @@ extension SplashViewController: AuthViewControllerDelegate {
 
     private func fetchProfile(_ token: String) {
         UIBlockingProgressHUD.show()
-        profileService.fetchProfile(token: token) { [weak self] result in
+        profileService.fetchProfile() { [weak self] result in
             UIBlockingProgressHUD.dismiss()
 
             guard let self = self else { return }

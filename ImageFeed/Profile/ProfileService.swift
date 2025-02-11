@@ -58,43 +58,22 @@ final class ProfileService {
     }
     
     
-    func fetchProfile(token: String, completion: @escaping (Result<Profile, Error>) -> Void) {
-            task?.cancel()
-
-            guard let request = makeProfileURLRequest(token: token) else {
-                completion(.failure(NetworkError.invalidRequest))
-                return
-            }
-
-            let task = urlSession.dataTask(with: request) { [weak self] data, response, error in
-                DispatchQueue.main.async {
-                    guard let self = self else { return }
-
-                    if let error = error {
-                        completion(.failure(error))
-                        return
-                    }
-
-                    guard let data = data else {
-                        completion(.failure(NetworkError.noData))
-                        return
-                    }
-
-                    do {
-                        let profileResult = try JSONDecoder().decode(ProfileResult.self, from: data)
-                        let profile = Profile(result: profileResult)
-
-                        
-                        self.profile = profile
-
-                        completion(.success(profile))
-                    } catch {
-                        completion(.failure(NetworkError.decodingError(error)))
-                    }
-                }
-            }
-            
-            self.task = task
-            task.resume()
-        }
-    }
+    func fetchProfile(handler: @escaping (Result<ProfileResult, Error>) -> Void) {
+          
+          assert(Thread.isMainThread)
+          task?.cancel()
+          guard let token = OAuth2TokenStorage().token else { return }
+          guard let request = makeProfileURLRequest(token: token) else { return }
+          
+          let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+              switch result {
+              case .success(let profileResult):
+                  handler(.success(profileResult))
+              case .failure(let error):
+                  print("[fetchProfile()]: error creating URLSessionTask. Error: \(error)")
+                  handler(.failure(error))
+              }
+          }
+          task.resume()
+      }
+  }
