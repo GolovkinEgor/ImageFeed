@@ -25,7 +25,7 @@ struct Profile {
 extension Profile {
     init(result profile: ProfileResult) {
         self.init(username: profile.username,
-                  name: "\(profile.firstName ?? "") \(profile.lastName ?? "")".trimmingCharacters(in: .whitespaces),
+                  name: "\(profile.firstName ?? "") \(profile.lastName ?? "")",
                   loginName: "@\(profile.username)",
                   bio: profile.bio)
     }

@@ -340,7 +340,7 @@
                                     <constraint firstAttribute="height" constant="24" id="7Xj-IG-8Nw"/>
                                 </constraints>
                                 <inset key="imageEdgeInsets" minX="0.0" minY="0.0" maxX="2.2250738585072014e-308" maxY="0.0"/>
-                                <state key="normal" image="nav_back_button"/>
+                                <state key="normal" image="backButton"/>
                                 <connections>
                                     <action selector="didTapButton" destination="qfv-xC-NJ0" eventType="touchUpInside" id="azb-OL-3Bs"/>
                                 </connections>
@@ -383,7 +383,7 @@
         <image name="Image" width="73" height="76"/>
         <image name="Image 2" width="50" height="50"/>
         <image name="auth_screen_logo" width="60" height="60"/>
-        <image name="nav_back_button" width="24" height="24"/>
+        <image name="backButton" width="24" height="24"/>
         <image name="tab_editorial_active" width="75" height="49"/>
         <image name="tab_editorial_active2" width="75" height="49"/>
         <namedColor name="BackGround Figma">

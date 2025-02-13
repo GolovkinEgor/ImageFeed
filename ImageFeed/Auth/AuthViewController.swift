@@ -8,8 +8,11 @@ protocol AuthViewControllerDelegate: AnyObject {
 
 final class AuthViewController: UIViewController {
     private let showWebViewSegueIdentifier = "ShowWebView"
+    private let oauth2TokenStorage = OAuth2TokenStorage()
     weak var delegate: AuthViewControllerDelegate?
     private let oauthService = OAuth2Service.shared
+    
+    
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showWebViewSegueIdentifier {
@@ -37,7 +40,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             UIBlockingProgressHUD.dismiss()
             switch result {
             case .success(let token ):
-                
+                self.oauth2TokenStorage.token = token.token
                 self.delegate?.authViewController(self, didAuthenticateWithCode: code)
             case .failure(let error):
                 print("[AuthViewController (delegate)]: error saving token. Error: \(error)")
@@ -54,3 +57,4 @@ extension AuthViewController: WebViewViewControllerDelegate {
 
     
 }
+

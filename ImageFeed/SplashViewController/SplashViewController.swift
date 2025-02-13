@@ -15,7 +15,7 @@ final class SplashViewController: UIViewController {
             
             switchToTabBarController()
         } else {
-            // Если токена нет, переходим к авторизации
+            
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
         }
     }
@@ -28,20 +28,20 @@ final class SplashViewController: UIViewController {
         window.makeKeyAndVisible()
     }
 
-    private func fetchOAuthToken(_ code: String) {
-        oauth2Service.fetchOAuthToken(code: code) { [weak self] result in
-            guard let self = self else { return }
-            
-            switch result {
-            case .success(let token):
-                self.oauth2TokenStorage.token = token.token
-                self.switchToTabBarController()
-            
-            case .failure(let error):
-                print("Ошибка получения токена: \(error.localizedDescription)")
-            }
-        }
-    }
+//    private func fetchOAuthToken(_ code: String) {
+//        oauth2Service.fetchOAuthToken(code: code) { [weak self] result in
+//            guard let self = self else { return }
+//            
+//            switch result {
+//            case .success(let token):
+//                self.oauth2TokenStorage.token = token.token
+//                self.switchToTabBarController()
+//            
+//            case .failure(let error):
+//                print("Ошибка получения токена: \(error.localizedDescription)")
+//            }
+//        }
+//    }
 
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {

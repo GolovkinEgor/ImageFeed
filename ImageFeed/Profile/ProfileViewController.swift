@@ -43,7 +43,7 @@ final class ProfileViewController: UIViewController {
     
     private let logoutButton: UIButton = {
         let button = UIButton(type: .custom)
-        let logoutImage =  UIImage(named: "LogoutImage")
+        let logoutImage =  UIImage(named: "LogOut")
         button.setImage(logoutImage, for: button.state)
         button.addTarget(
             nil,
@@ -57,25 +57,27 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
+        print("Profile is: \(String(describing: profileService.profile))")
+
         if let profile = profileService.profile {
             updateProfileDetails(profile: profile)
+            profileImageServiceObserver = NotificationCenter.default.addObserver(
+                forName: ProfileImageService.didChangeNotification,
+                object: nil,
+                queue: .main) { [weak self] _ in
+                    self?.updateAvatar()
+                }
+            updateAvatar()
+        } else {
+            print("Профиль не загружен")
         }
-        
-        profileImageServiceObserver = NotificationCenter.default
-                 .addObserver(
-                     forName: ProfileImageService.didChangeNotification,
-                     object: nil,
-                     queue: .main
-                 ) { [weak self] _ in
-                     self?.updateAvatar()
-                 }
-             updateAvatar()
-        
+
         setupUI()
         setupViews()
         setupСonstraints()
     }
+
     
     // MARK: - Private Methods
     

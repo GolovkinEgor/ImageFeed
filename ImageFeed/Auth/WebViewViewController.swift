@@ -33,8 +33,7 @@ final class WebViewViewController: UIViewController {
              changeHandler: { [weak self] _, _ in
                  self?.updateProgress()
              })
-        setupViews()
-        setupConstraints()
+        
         loadAuthView()
     }
     
@@ -50,32 +49,7 @@ final class WebViewViewController: UIViewController {
         progressView.isHidden = fabs(webView.estimatedProgress - 1.0) <= 0.0001
     }
     
-    private func setupViews() {
-        [backButton, webView, progressView].forEach {
-            $0.translatesAutoresizingMaskIntoConstraints = false
-            view.addSubview($0)
-        }
-    }
-
-    private func setupConstraints() {
-        let layout = view.layoutMarginsGuide
-        
-        NSLayoutConstraint.activate([
-            backButton.leadingAnchor.constraint(equalTo: layout.leadingAnchor, constant: 16),
-            backButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 13),
-            backButton.widthAnchor.constraint(equalToConstant: 24),
-            backButton.heightAnchor.constraint(equalToConstant: 24),
-            
-            webView.leadingAnchor.constraint(equalTo: layout.leadingAnchor, constant: 0),
-            webView.trailingAnchor.constraint(equalTo: layout.trailingAnchor, constant: 0),
-            webView.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 0),
-            webView.bottomAnchor.constraint(equalTo: layout.bottomAnchor, constant: 0),
-            
-            progressView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 0),
-            progressView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: 0),
-            progressView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0)
-        ])
-    }
+    
 
     
     private func loadAuthView(){
