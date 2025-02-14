@@ -1,5 +1,8 @@
 
 import UIKit
+protocol ErrorAlertDelegate: AnyObject {
+    func showErrorAlert(message: String)
+}
 
 struct ProfileResult: Decodable {
     let username: String
@@ -37,9 +40,9 @@ final class ProfileService {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private let jsonDecoder = JSONDecoder()
-    
+     init() {}
      var profile: Profile?
-    init() {}
+    
     
     func makeProfileURLRequest(token: String) -> URLRequest? {
         guard let baseURL = Constants.defaultBaseURL else {
@@ -68,8 +71,10 @@ final class ProfileService {
           let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
               switch result {
               case .success(let profileResult):
+                  self?.profile = Profile(result: profileResult)
                   handler(.success(profileResult))
               case .failure(let error):
+                  
                   print("[fetchProfile()]: error creating URLSessionTask. Error: \(error)")
                   handler(.failure(error))
               }

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		B70FCEA02D5FA6D500B20EAD /* AlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B70FCE9F2D5FA6D500B20EAD /* AlertController.swift */; };
 		B72803592D4BE22F0048D3CC /* UIBlockingProgressHUD.swift in Sources */ = {isa = PBXBuildFile; fileRef = B72803582D4BE22F0048D3CC /* UIBlockingProgressHUD.swift */; };
 		B728035B2D4FA1E40048D3CC /* ProfileService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B728035A2D4FA1E40048D3CC /* ProfileService.swift */; };
 		B73641D12CEF841300FF2CF7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B73641D02CEF841300FF2CF7 /* AppDelegate.swift */; };
@@ -53,6 +54,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		B70FCE9F2D5FA6D500B20EAD /* AlertController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertController.swift; sourceTree = "<group>"; };
 		B72803582D4BE22F0048D3CC /* UIBlockingProgressHUD.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIBlockingProgressHUD.swift; sourceTree = "<group>"; };
 		B728035A2D4FA1E40048D3CC /* ProfileService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileService.swift; sourceTree = "<group>"; };
 		B73641CD2CEF841300FF2CF7 /* ImageFeed.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ImageFeed.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -148,6 +150,7 @@
 				B73642472CFC7E1B00FF2CF7 /* Profile */,
 				B73642442CF77C0E00FF2CF7 /* ImagesList */,
 				B72803582D4BE22F0048D3CC /* UIBlockingProgressHUD.swift */,
+				B70FCE9F2D5FA6D500B20EAD /* AlertController.swift */,
 			);
 			path = ImageFeed;
 			sourceTree = "<group>";
@@ -370,6 +373,7 @@
 				B73642602D33E25100FF2CF7 /* SplashViewController.swift in Sources */,
 				B728035B2D4FA1E40048D3CC /* ProfileService.swift in Sources */,
 				B73641DB2CEF841300FF2CF7 /* ImageFeed.xcdatamodeld in Sources */,
+				B70FCEA02D5FA6D500B20EAD /* AlertController.swift in Sources */,
 				B73642492D00C01900FF2CF7 /* SingleImageViewController.swift in Sources */,
 				B73642432CF77BD300FF2CF7 /* ImagesListCell.swift in Sources */,
 				B73641D12CEF841300FF2CF7 /* AppDelegate.swift in Sources */,

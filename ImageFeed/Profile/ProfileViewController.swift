@@ -57,7 +57,7 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        fetchProfileData()
         print("Profile is: \(String(describing: profileService.profile))")
 
         if let profile = profileService.profile {
@@ -71,6 +71,7 @@ final class ProfileViewController: UIViewController {
             updateAvatar()
         } else {
             print("Профиль не загружен")
+            
         }
 
         setupUI()
@@ -92,7 +93,19 @@ final class ProfileViewController: UIViewController {
         userLoginLabel.text = profile.loginName
         descriptionLabel.text = profile.bio
     }
-    
+    func fetchProfileData() {
+        profileService.fetchProfile { [weak self] result in
+            switch result {
+            case .success(let profileResult):
+                // Преобразуем ProfileResult в Profile
+                let profile = Profile(result: profileResult)
+                self?.updateProfileDetails(profile: profile)
+            case .failure(let error):
+                print("Ошибка загрузки профиля: \(error)")
+            }
+        }
+    }
+
     private func updateAvatar(){
         guard let profileImageURL = ProfileImageService.shared.avatarURL else { return }
      let url = profileImageURL

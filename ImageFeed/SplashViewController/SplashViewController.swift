@@ -6,14 +6,14 @@ final class SplashViewController: UIViewController {
     private let oauth2TokenStorage = OAuth2TokenStorage()
     private let profileService = ProfileService()
     private let profileImageService = ProfileImageService.shared
-    
+    private let alertPresenter = AlertPresenter()
 
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         let token = oauth2TokenStorage.token
         if token != nil {
+            fetchProfile()
             
-            switchToTabBarController()
         } else {
             
             performSegue(withIdentifier: showAuthenticationScreenSegueIdentifier, sender: nil)
@@ -27,21 +27,9 @@ final class SplashViewController: UIViewController {
         window.rootViewController = tabBarController
         window.makeKeyAndVisible()
     }
+    
 
-//    private func fetchOAuthToken(_ code: String) {
-//        oauth2Service.fetchOAuthToken(code: code) { [weak self] result in
-//            guard let self = self else { return }
-//            
-//            switch result {
-//            case .success(let token):
-//                self.oauth2TokenStorage.token = token.token
-//                self.switchToTabBarController()
-//            
-//            case .failure(let error):
-//                print("Ошибка получения токена: \(error.localizedDescription)")
-//            }
-//        }
-//    }
+
 
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -62,38 +50,49 @@ final class SplashViewController: UIViewController {
 extension SplashViewController: AuthViewControllerDelegate {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String) {
         vc.dismiss(animated: true)
-       
+        
         guard let token = oauth2TokenStorage.token else {
             print("[ERROR] oauth2TokenStorage.token is nil!")
             return
         }
-        fetchProfile(token)
+        fetchProfile()
     }
-
-    private func fetchProfile(_ token: String) {
+    
+    private func fetchProfile() {
         UIBlockingProgressHUD.show()
-        profileService.fetchProfile() { [weak self] result in
+        
+        profileService.fetchProfile { [weak self] (result: Result<ProfileResult, Error>) in
             UIBlockingProgressHUD.dismiss()
-
+            
             guard let self = self else { return }
-
+            
             switch result {
-            case .success:
-               self.switchToTabBarController()
-
-            case .failure:
-                // TODO [Sprint 11] Покажите ошибку получения профиля
+            case .success(let profileResult):
+                let profile = Profile(result: profileResult)  
+                self.profileService.profile = profile
+                self.fetchProfileImage(profile: profile)
+                self.switchToTabBarController()
+                
+            case .failure(let error):
+                
+                print("[fetchProfile()]: error getting profile. Error: \(error)")
                 break
             }
         }
     }
-    private func fetchProfileImage(profile:Profile){
+    private func showAlert(error:Error){
+        alertPresenter.showErrorAlert(title: "Что-то пошло не так",
+                                      message: "Не удалось войти в систему, \(error.localizedDescription)") 
+    }
+    
+    
+    private func fetchProfileImage(profile: Profile) {
         ProfileImageService.shared.fetchProfileImageURL(username: profile.username) { result in
-            switch result{
+            switch result {
             case .success(let imageURL):
                 print(imageURL)
             case .failure(let error):
-                print("[fetchProfileImage()]: error getting profile image. Error: \(error)" )
+                print("[fetchProfileImage()]: error getting profile image. Error: \(error)")
             }
         }
     }

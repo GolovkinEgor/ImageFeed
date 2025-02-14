@@ -43,6 +43,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
                 self.oauth2TokenStorage.token = token.token
                 self.delegate?.authViewController(self, didAuthenticateWithCode: code)
             case .failure(let error):
+                
                 print("[AuthViewController (delegate)]: error saving token. Error: \(error)")
             }
         }
