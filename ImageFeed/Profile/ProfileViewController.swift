@@ -110,7 +110,7 @@ final class ProfileViewController: UIViewController {
     private func updateAvatar(){
         guard let profileImageURL = ProfileImageService.shared.avatarURL else { return }
         let processor = RoundCornerImageProcessor(cornerRadius: 20)
-        profileImageView.kf.setImage(with: profileImageURL,placeholder: UIImage(named:"placeholder"), options: [.processor(processor)])
+        profileImageView.kf.setImage(with: profileImageURL,placeholder: UIImage(named:"placeholder.jpeg"), options: [.processor(processor)])
         
     }
     private func setupUI() {

@@ -39,34 +39,46 @@ final class ProfileImageService {
 
     
     func fetchProfileImageURL(username: String?, handler: @escaping (Result<UserResult, Error>) -> Void) {
-        
         assert(Thread.isMainThread)
         task?.cancel()
-        
-        NotificationCenter.default.post(name: ProfileImageService.didChangeNotification,
-                                        object: self,
-                                        userInfo: ["URL": self.avatarURL as Any])
-        
-        guard let token = OAuth2TokenStorage().token else { return }
-        guard let request = makeProfileImageURLRequest(username: username, token: token) else { return }
-        
+
+        guard let token = OAuth2TokenStorage().token else {
+            print("[fetchProfileImageURL]: Ошибка - отсутствует токен")
+            return
+        }
+        guard let request = makeProfileImageURLRequest(username: username, token: token) else {
+            print("[fetchProfileImageURL]: Ошибка - не удалось создать URL-запрос")
+            return
+        }
+
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self else { return }
+
+            print("[fetchProfileImageURL]: Получен результат запроса: \(result)")
+
             switch result {
             case .success(let userResult):
-                guard let profileImage = userResult.profileImage,
-                      let resultURL = profileImage.small else {
-                    print("{fetchProfileImageURL}: profile image URL is nil or not available.")
+                print("[fetchProfileImageURL]: JSON-ответ от сервера: \(userResult)")
+
+                guard let profileImage = userResult.profileImage else {
+                    print("[fetchProfileImageURL]: Поле `profileImage` отсутствует в ответе сервера.")
+                    return
+                }
+
+                guard let resultURL = profileImage.small else {
+                    print("[fetchProfileImageURL]: Поле `small` в `profileImage` равно nil.")
                     return
                 }
 
                 self.avatarURL = URL(string: resultURL)
                 handler(.success(userResult))
+
             case .failure(let error):
-                print("[fetchProfileImageURL]: error creating URLSessionTask. Error: \(error)")
+                print("[fetchProfileImageURL]: Ошибка при выполнении запроса: \(error)")
                 handler(.failure(error))
             }
         }
         task.resume()
     }
+
 }

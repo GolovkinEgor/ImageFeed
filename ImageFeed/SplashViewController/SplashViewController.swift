@@ -17,6 +17,10 @@ final class SplashViewController: UIViewController {
     
     
     // MARK: - Overrides Methods
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -34,17 +38,12 @@ final class SplashViewController: UIViewController {
         }
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-//        setupUI()
-//        setupViews()
-//        setupСonstraints()
+
     }
     
     override var preferredStatusBarStyle: UIStatusBarStyle {
