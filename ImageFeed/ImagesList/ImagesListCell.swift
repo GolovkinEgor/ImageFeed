@@ -1,9 +1,3 @@
-//
-//  ImagesListCell.swift
-//  ImageFeed
-//
-//  Created by Golovkin Egor on 27.11.2024.
-//
 
 
 import UIKit

@@ -54,9 +54,12 @@ final class ProfileImageService {
             guard let self else { return }
             switch result {
             case .success(let userResult):
-                guard let resultURL = userResult.profileImage?.small else {
-                    print("[fetchProfileImageURL]: profile image URL receiving error.")
-                    return}
+                guard let profileImage = userResult.profileImage,
+                      let resultURL = profileImage.small else {
+                    print("{fetchProfileImageURL}: profile image URL is nil or not available.")
+                    return
+                }
+
                 self.avatarURL = URL(string: resultURL)
                 handler(.success(userResult))
             case .failure(let error):

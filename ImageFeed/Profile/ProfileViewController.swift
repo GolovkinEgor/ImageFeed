@@ -1,5 +1,6 @@
 
 import UIKit
+import Kingfisher
 
 
 final class ProfileViewController: UIViewController {
@@ -57,8 +58,8 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        fetchProfileData()
-        print("Profile is: \(String(describing: profileService.profile))")
+
+        
 
         if let profile = profileService.profile {
             updateProfileDetails(profile: profile)
@@ -108,7 +109,8 @@ final class ProfileViewController: UIViewController {
 
     private func updateAvatar(){
         guard let profileImageURL = ProfileImageService.shared.avatarURL else { return }
-     let url = profileImageURL
+        let processor = RoundCornerImageProcessor(cornerRadius: 20)
+        profileImageView.kf.setImage(with: profileImageURL,placeholder: UIImage(named:"placeholder"), options: [.processor(processor)])
         
     }
     private func setupUI() {

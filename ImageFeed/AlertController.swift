@@ -1,7 +1,7 @@
 
 import UIKit
 class AlertPresenter{
-    private weak var delegate : UIViewController?
+     weak var delegate : UIViewController?
     
     func showErrorAlert(title:String,message: String) {
         let alertController = UIAlertController(title: title,

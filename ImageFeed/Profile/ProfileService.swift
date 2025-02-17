@@ -1,8 +1,5 @@
 
 import UIKit
-protocol ErrorAlertDelegate: AnyObject {
-    func showErrorAlert(message: String)
-}
 
 struct ProfileResult: Decodable {
     let username: String
@@ -11,11 +8,11 @@ struct ProfileResult: Decodable {
     let bio: String?
     
     enum CodingKeys: String, CodingKey {
-          case username
-          case firstName = "first_name"
-          case lastName = "last_name"
-          case bio
-      }
+              case username
+              case firstName = "first_name"
+              case lastName = "last_name"
+              case bio
+          }
 }
 
 struct Profile {
@@ -40,45 +37,41 @@ final class ProfileService {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     private let jsonDecoder = JSONDecoder()
-     init() {}
-     var profile: Profile?
     
+    var profile: Profile?
     
-    func makeProfileURLRequest(token: String) -> URLRequest? {
-        guard let baseURL = Constants.defaultBaseURL else {
-            print("[makeProfileURLRequest()]: error - baseURL is nil")
+    private init() {}
+    
+    func makeProfileURLRequest(token: String) -> URLRequest?{
+        if let baseURL = Constants.defaultBaseURL,
+           let url = URL(string: "/me", relativeTo: baseURL) {
+            var request = URLRequest(url: url)
+            request.httpMethod = "GET"
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+           
+            return request
+        } else {
+            print("[makeProfileURLRequest()]: error creating profile request")
             return nil
         }
-        guard let url = URL(string: "/me", relativeTo: baseURL) else {
-            print("[makeProfileURLRequest()]: error - unable to create URL")
-            return nil
-        }
-        var request = URLRequest(url: url)
-        request.httpMethod = "GET"
-        request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
-        
-        return request
     }
     
-    
     func fetchProfile(handler: @escaping (Result<ProfileResult, Error>) -> Void) {
-          
-          assert(Thread.isMainThread)
-          task?.cancel()
-          guard let token = OAuth2TokenStorage().token else { return }
-          guard let request = makeProfileURLRequest(token: token) else { return }
-          
-          let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
-              switch result {
-              case .success(let profileResult):
-                  self?.profile = Profile(result: profileResult)
-                  handler(.success(profileResult))
-              case .failure(let error):
-                  
-                  print("[fetchProfile()]: error creating URLSessionTask. Error: \(error)")
-                  handler(.failure(error))
-              }
-          }
-          task.resume()
-      }
-  }
+        
+        assert(Thread.isMainThread)
+        task?.cancel()
+        guard let token = OAuth2TokenStorage().token else { return }
+        guard let request = makeProfileURLRequest(token: token) else { return }
+        
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+            switch result {
+            case .success(let profileResult):
+                handler(.success(profileResult))
+            case .failure(let error):
+                print("[fetchProfile()]: error creating URLSessionTask. Error: \(error)")
+                handler(.failure(error))
+            }
+        }
+        task.resume()
+    }
+}
