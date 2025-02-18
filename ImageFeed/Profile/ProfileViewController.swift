@@ -126,7 +126,7 @@ final class ProfileViewController: UIViewController {
     
     private func setupСonstraints(){
         NSLayoutConstraint.activate([
-            // фото профиля
+            
             profileImageView.heightAnchor.constraint(equalToConstant: 70),
             profileImageView.widthAnchor.constraint(equalToConstant: 70),
             profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
