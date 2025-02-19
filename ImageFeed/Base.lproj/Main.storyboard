@@ -217,7 +217,7 @@
         <!--Auth View Controller-->
         <scene sceneID="Snm-1l-7TZ">
             <objects>
-                <viewController id="f3L-ed-Agn" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShowAuthenticationScreenSegueIdentifier" id="f3L-ed-Agn" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5sd-nX-ho5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -316,7 +316,7 @@
         <!--Web View View Controller-->
         <scene sceneID="rrW-7V-KY0">
             <objects>
-                <viewController id="qfv-xC-NJ0" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="qfv-xC-NJ0" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="93h-Xo-7aW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>

@@ -20,12 +20,14 @@ final class AuthViewController: UIViewController {
                 fatalError("Ошибка перехода на WebView")
                 
             }
+            
             webViewViewController.delegate = self
             print(" Делегат успешно установлен")
         }
         else{
             print(" Неверный идентификатор сегвея: \(segue.identifier ?? "nil")")
-            performSegue(withIdentifier: showWebViewSegueIdentifier, sender: nil)
+            performSegue(withIdentifier: "ShowAuthenticationScreenSegueIdentifier", sender: nil)
+
         }
     }
 }
