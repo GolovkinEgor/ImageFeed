@@ -12,6 +12,7 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let alertPresenter = AlertPresenter()
+    weak var delegate: AuthViewControllerDelegate?
 
     
     
@@ -31,10 +32,7 @@ final class SplashViewController: UIViewController {
         if let token = oauth2TokenStorage.token {
             self.fetchProfile()
         } else {
-            let authController = AuthViewController()
-            authController.delegate = self
-            authController.modalPresentationStyle = .fullScreen
-            present(authController, animated: true)
+            performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
         }
     }
     
@@ -45,7 +43,7 @@ final class SplashViewController: UIViewController {
         
 
     }
-    
+        
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
@@ -101,6 +99,7 @@ final class SplashViewController: UIViewController {
             
         
     }
+   
 }
 
     // MARK: - Extensions
@@ -111,5 +110,17 @@ extension SplashViewController: AuthViewControllerDelegate {
             self?.fetchProfile()
         }
         
+    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
+            guard let authViewController = segue.destination as? AuthViewController else {
+                fatalError("Ошибка перехода на AuthViewController")
+            }
+            
+            authViewController.delegate = self
+            print("Делегат успешно установлен")
+        } else {
+            print("Неверный идентификатор сегвея: \(segue.identifier ?? "nil")")
+        }
     }
 }

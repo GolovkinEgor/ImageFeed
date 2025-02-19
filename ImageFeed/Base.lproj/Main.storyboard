@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="rrL-n9-WeM">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="tqA-G8-Noe">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
@@ -214,10 +214,10 @@
             </objects>
             <point key="canvasLocation" x="1031.8840579710145" y="-638.16964285714278"/>
         </scene>
-        <!--Auth View Controller-->
+        <!--AuthViewController-->
         <scene sceneID="Snm-1l-7TZ">
             <objects>
-                <viewController storyboardIdentifier="ShowAuthenticationScreenSegueIdentifier" id="f3L-ed-Agn" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="ShowAuthenticationScreenSegueIdentifier" id="f3L-ed-Agn" userLabel="AuthViewController" customClass="AuthViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="5sd-nX-ho5">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -313,10 +313,10 @@
             </objects>
             <point key="canvasLocation" x="-3496" y="945"/>
         </scene>
-        <!--Web View View Controller-->
+        <!--WebViewViewController-->
         <scene sceneID="rrW-7V-KY0">
             <objects>
-                <viewController storyboardIdentifier="WebViewViewController" id="qfv-xC-NJ0" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="WebViewViewController" id="qfv-xC-NJ0" userLabel="WebViewViewController" customClass="WebViewViewController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="93h-Xo-7aW">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
