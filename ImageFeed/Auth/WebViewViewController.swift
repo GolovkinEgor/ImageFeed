@@ -19,6 +19,9 @@ final class WebViewViewController: UIViewController {
     @IBOutlet weak var progressView: UIProgressView!
     weak var delegate: WebViewViewControllerDelegate?
     private var estimatedProgressObservation: NSKeyValueObservation?
+    @IBAction func didTapButton (){
+        dismiss(animated: true)
+    }
     
     // MARK: - Overrides Methods
     
@@ -32,16 +35,11 @@ final class WebViewViewController: UIViewController {
              changeHandler: { [weak self] _, _ in
                  self?.updateProgress()
              })
-      
         loadAuthView()
     }
-    
     // MARK: - Private Methods
-    
     @objc
-    private func didTapButton() {
-        dismiss(animated: true)
-    }
+    
     
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
@@ -49,14 +47,11 @@ final class WebViewViewController: UIViewController {
     }
     
     
-    
     private func loadAuthView() {
         guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
-            print("[WebViewViewController.loadAuthView()]: urlComponents creation error")
             return
         }
 
-        
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
             URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
@@ -65,20 +60,12 @@ final class WebViewViewController: UIViewController {
         ]
 
         guard let url = urlComponents.url else {
-            print("[WebViewViewController.loadAuthView()]: url creation error")
             return
         }
 
-        
         let request = URLRequest(url: url)
-
-        // Если WebView еще не был представлен, загружаем request
-        if presentedViewController == nil {
-            webView.load(request)
-        } else {
-            print("[WebViewViewController.loadAuthView()]: WebView уже представлен")
+        webView.load(request)
         }
-    }
 
 }
 
