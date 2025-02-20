@@ -1,14 +1,8 @@
-//
-//  WebViewViewController.swift
-//  ImageFeed
-//
-//  Created by Alesia Matusevich on 16/12/2024.
-//
 
 import UIKit
 import WebKit
 
-enum WebWViewConstants {
+enum WebViewConstants {
     static let unsplashAuthorizeURLString = "https://unsplash.com/oauth/authorize"
 }
 
@@ -56,12 +50,13 @@ final class WebViewViewController: UIViewController {
     
     
     
-    private func loadAuthView(){
-        guard var urlComponents = URLComponents(string: WebWViewConstants.unsplashAuthorizeURLString)
-        else {
+    private func loadAuthView() {
+        guard var urlComponents = URLComponents(string: WebViewConstants.unsplashAuthorizeURLString) else {
             print("[WebViewViewController.loadAuthView()]: urlComponents creation error")
             return
         }
+
+        
         urlComponents.queryItems = [
             URLQueryItem(name: "client_id", value: Constants.accessKey),
             URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
@@ -69,15 +64,22 @@ final class WebViewViewController: UIViewController {
             URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
 
-        
-        guard let url = urlComponents.url
-        else {
+        guard let url = urlComponents.url else {
             print("[WebViewViewController.loadAuthView()]: url creation error")
             return
         }
+
+        
         let request = URLRequest(url: url)
-        webView.load(request)
+
+        
+        if presentedViewController == nil {
+            webView.load(request)
+        } else {
+            print("[WebViewViewController.loadAuthView()]: WebView уже представлен")
+        }
     }
+
 }
 
     // MARK: - Extensions
