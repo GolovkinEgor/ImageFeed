@@ -1,3 +1,9 @@
+//
+//  WebViewViewController.swift
+//  ImageFeed
+//
+//  Created by Alesia Matusevich on 16/12/2024.
+//
 
 import UIKit
 import WebKit
@@ -14,7 +20,6 @@ protocol WebViewViewControllerDelegate: AnyObject {
 final class WebViewViewController: UIViewController {
     
     // MARK: - Private Properties
-    
     @IBOutlet weak var webView: WKWebView!
     @IBOutlet weak var backButton: UIButton!
     @IBOutlet weak var progressView: UIProgressView!
@@ -33,16 +38,16 @@ final class WebViewViewController: UIViewController {
              changeHandler: { [weak self] _, _ in
                  self?.updateProgress()
              })
-        
+      
         loadAuthView()
     }
     
     // MARK: - Private Methods
+    
     @objc
-    @IBAction private func didTapButton() {
+    private func didTapButton() {
         dismiss(animated: true)
     }
-   
     
     private func updateProgress() {
         progressView.progress = Float(webView.estimatedProgress)
@@ -50,7 +55,6 @@ final class WebViewViewController: UIViewController {
     }
     
     
-
     
     private func loadAuthView(){
         guard var urlComponents = URLComponents(string: WebWViewConstants.unsplashAuthorizeURLString)
@@ -64,6 +68,7 @@ final class WebViewViewController: UIViewController {
             URLQueryItem(name: "response_type", value: "code"),
             URLQueryItem(name: "scope", value: Constants.accessScope)
         ]
+
         
         guard let url = urlComponents.url
         else {
@@ -96,7 +101,8 @@ extension WebViewViewController: WKNavigationDelegate {
             let urlComponents = URLComponents(string: url.absoluteString),
             urlComponents.path == "/oauth/authorize/native",
             let items = urlComponents.queryItems,
-            let codeItem = items.first(where: {$0.name == "code"}){
+            let codeItem = items.first(where: {$0.name == "code"})
+        {
             return codeItem.value
         } else {
             print("[WebViewController.code()]: error getting CODE")

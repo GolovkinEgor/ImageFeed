@@ -113,9 +113,11 @@ extension SplashViewController: AuthViewControllerDelegate {
     }
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-            guard let authViewController = segue.destination as? AuthViewController else {
-                fatalError("Ошибка перехода на AuthViewController")
-            }
+            guard let navViewController = segue.destination as? UINavigationController,
+                              let authViewController = navViewController.viewControllers.first as? AuthViewController
+                        else {
+                            fatalError("Ошибка перехода на AuthViewController")
+                        }
             
             authViewController.delegate = self
             print("Делегат успешно установлен")
