@@ -41,7 +41,7 @@ extension AuthViewController: WebViewViewControllerDelegate {
             switch result {
             case .success(let token):
                 self.oauth2TokenStorage.token = token.token
-                self.performSegue(withIdentifier: self.showWebViewSegueIdentifier, sender: nil) // Переход на следующий экран
+                self.performSegue(withIdentifier: self.showWebViewSegueIdentifier, sender: nil) 
             case .failure(let error):
                 print("[AuthViewController delegate]: ошибка сохранения токена. Ошибка: \(error)")
             }

@@ -72,7 +72,7 @@ final class WebViewViewController: UIViewController {
         
         let request = URLRequest(url: url)
 
-        
+        // Если WebView еще не был представлен, загружаем request
         if presentedViewController == nil {
             webView.load(request)
         } else {
