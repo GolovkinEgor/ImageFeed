@@ -2,7 +2,6 @@
 import UIKit
 import Kingfisher
 
-
 final class ProfileViewController: UIViewController {
     
     // MARK: - Private Properties
@@ -13,7 +12,7 @@ final class ProfileViewController: UIViewController {
     
     private let profileImageView: UIImageView = {
         let view = UIImageView()
-        let image = UIImage(named: "imageUser")
+        let image = UIImage(named: "UserImage")
         view.image = image
         return view
     }()
@@ -29,7 +28,7 @@ final class ProfileViewController: UIViewController {
     private var userLoginLabel: UILabel = {
         var label = UILabel()
         label.text = "@ekaterina_nov"
-        label.textColor = .gray
+        label.textColor = UIColor.gray
         label.font = .systemFont(ofSize: 13)
         return label
     }()
@@ -44,7 +43,7 @@ final class ProfileViewController: UIViewController {
     
     private let logoutButton: UIButton = {
         let button = UIButton(type: .custom)
-        let logoutImage =  UIImage(named: "LogOut")
+        let logoutImage =  UIImage(named: "LogoutImage")
         button.setImage(logoutImage, for: button.state)
         button.addTarget(
             nil,
@@ -58,28 +57,25 @@ final class ProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
-
         if let profile = profileService.profile {
             updateProfileDetails(profile: profile)
-            profileImageServiceObserver = NotificationCenter.default.addObserver(
-                forName: ProfileImageService.didChangeNotification,
-                object: nil,
-                queue: .main) { [weak self] _ in
-                    self?.updateAvatar()
-                }
-            updateAvatar()
-        } else {
-            print("Профиль не загружен")
-            
         }
-
+        
+        profileImageServiceObserver = NotificationCenter.default
+                 .addObserver(
+                     forName: ProfileImageService.didChangeNotification,
+                     object: nil,
+                     queue: .main
+                 ) { [weak self] _ in
+                     self?.updateAvatar()
+                 }
+             updateAvatar()
+        
         setupUI()
         setupViews()
         setupСonstraints()
     }
-
     
     // MARK: - Private Methods
     
@@ -94,23 +90,13 @@ final class ProfileViewController: UIViewController {
         userLoginLabel.text = profile.loginName
         descriptionLabel.text = profile.bio
     }
-    func fetchProfileData() {
-        profileService.fetchProfile { [weak self] result in
-            switch result {
-            case .success(let profileResult):
-                // Преобразуем ProfileResult в Profile
-                let profile = Profile(result: profileResult)
-                self?.updateProfileDetails(profile: profile)
-            case .failure(let error):
-                print("Ошибка загрузки профиля: \(error)")
-            }
-        }
-    }
-
+    
     private func updateAvatar(){
         guard let profileImageURL = ProfileImageService.shared.avatarURL else { return }
         let processor = RoundCornerImageProcessor(cornerRadius: 20)
-        profileImageView.kf.setImage(with: profileImageURL,placeholder: UIImage(named:"placeholder.jpeg"), options: [.processor(processor)])
+        profileImageView.kf.setImage(with: profileImageURL,
+                                     placeholder: UIImage(named: "placeholder.jpeg"),
+                                     options: [.processor(processor)])
         
     }
     private func setupUI() {
@@ -126,15 +112,15 @@ final class ProfileViewController: UIViewController {
     
     private func setupСonstraints(){
         NSLayoutConstraint.activate([
-            
+           
             profileImageView.heightAnchor.constraint(equalToConstant: 70),
             profileImageView.widthAnchor.constraint(equalToConstant: 70),
             profileImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
             profileImageView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
             
-            
             userNameLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             userNameLabel.topAnchor.constraint(equalTo: profileImageView.bottomAnchor, constant: 8),
+            
             
             userLoginLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             userLoginLabel.topAnchor.constraint(equalTo: userNameLabel.bottomAnchor, constant: 8),
@@ -143,7 +129,7 @@ final class ProfileViewController: UIViewController {
             descriptionLabel.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
             descriptionLabel.topAnchor.constraint(equalTo: userLoginLabel.bottomAnchor, constant: 8),
             
-             
+            
             logoutButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             logoutButton.centerYAnchor.constraint(equalTo: profileImageView.centerYAnchor)
         ])

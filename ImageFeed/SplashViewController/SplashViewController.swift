@@ -12,16 +12,16 @@ final class SplashViewController: UIViewController {
     private let profileService = ProfileService.shared
     private let profileImageService = ProfileImageService.shared
     private let alertPresenter = AlertPresenter()
-    weak var delegate: AuthViewControllerDelegate?
 
     
-    
+    private let vectorImageView: UIImageView = {
+        let view = UIImageView()
+        let image = UIImage(named: "Vector")
+        view.image = image
+        return view
+    }()
     
     // MARK: - Overrides Methods
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        setNeedsStatusBarAppearanceUpdate()
-    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
@@ -29,29 +29,54 @@ final class SplashViewController: UIViewController {
         alertPresenter.delegate = self
         
         
+        
         if let token = oauth2TokenStorage.token {
             self.fetchProfile()
         } else {
-            performSegue(withIdentifier: ShowAuthenticationScreenSegueIdentifier, sender: nil)
+            let authController = AuthViewController()
+            authController.delegate = self
+            authController.modalPresentationStyle = .fullScreen
+            present(authController, animated: true)
         }
     }
     
-    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        setNeedsStatusBarAppearanceUpdate()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        setupUI()
+        setupViews()
+        setupСonstraints()
     }
-        
+    
     override var preferredStatusBarStyle: UIStatusBarStyle {
         .lightContent
     }
     
     // MARK: - Private Methods
     
+    private func setupUI() {
+        self.view.backgroundColor = .backGroundFigma
+    }
     
-   
+    private func setupViews() {
+        [vectorImageView].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
+        }
+    }
+    
+    private func setupСonstraints(){
+        NSLayoutConstraint.activate([
+            // кнопка логаута
+            vectorImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            vectorImageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
+        ])
+    }
     
     private func switchToTabBarController() {
         guard let window = UIApplication.shared.windows.first else { fatalError("Invalid Configuration") }
@@ -96,10 +121,7 @@ final class SplashViewController: UIViewController {
     private func showLoginAlert(error: Error) {
         alertPresenter.showErrorAlert(title: "Что-то пошло не так",
                                  message: "Не удалось войти в систему, \(error.localizedDescription)")
-            
-        
     }
-   
 }
 
     // MARK: - Extensions
@@ -110,19 +132,5 @@ extension SplashViewController: AuthViewControllerDelegate {
             self?.fetchProfile()
         }
         
-    }
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == ShowAuthenticationScreenSegueIdentifier {
-            guard let navViewController = segue.destination as? UINavigationController,
-                              let authViewController = navViewController.viewControllers.first as? AuthViewController
-                        else {
-                            fatalError("Ошибка перехода на AuthViewController")
-                        }
-            
-            authViewController.delegate = self
-            print("Делегат успешно установлен")
-        } else {
-            print("Неверный идентификатор сегвея: \(segue.identifier ?? "nil")")
-        }
     }
 }

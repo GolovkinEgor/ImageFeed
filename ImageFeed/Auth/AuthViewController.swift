@@ -1,60 +1,112 @@
+
 import UIKit
 import ProgressHUD
-
 
 protocol AuthViewControllerDelegate: AnyObject {
     func authViewController(_ vc: AuthViewController, didAuthenticateWithCode code: String)
 }
 
 final class AuthViewController: UIViewController {
-    private let showWebViewSegueIdentifier = "ShowWebView"
-    private let oauth2TokenStorage = OAuth2TokenStorage()
+    
+    // MARK: - Private Properties
+    
+    private let screenLogoImageView: UIImageView = {
+        let view = UIImageView()
+        let image = UIImage(named: "auth_screen_logo")
+        view.image = image
+        return view
+    }()
+    
+    private let loginButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.addTarget(
+            nil,
+            action: #selector(Self.didTapButton),
+            for: .touchUpInside
+        )
+        button.setTitle("Войти", for: button.state)
+        button.setTitleColor(.backGroundFigma, for: button.state)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 16
+        button.layer.masksToBounds = true
+        
+        return button
+    }()
+    
+    private let tokenStorage = OAuth2TokenStorage()
     weak var delegate: AuthViewControllerDelegate?
-    private let oauthService = OAuth2Service.shared
+    private let identifier = "ShowWebView"
     
+    // MARK: - Overrides Methods
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = UIColor.backGroundFigma
+        setupViews()
+        setupСonstraints()
+        
+    }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == showWebViewSegueIdentifier {
-            guard let webViewViewController = segue.destination as? WebViewViewController else {
-                fatalError("Ошибка перехода на WebView")
-            }
-            
-            webViewViewController.delegate = self
-            print("Делегат успешно установлен")
-        } else {
-            print("Неверный идентификатор сегвея: \(segue.identifier ?? "nil")")
+    // MARK: - Private Methods
+    
+    @objc
+    private func didTapButton() {
+        
+        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+        
+        guard let webViewController = storyboard.instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController else {return}
+        webViewController.delegate = self
+        webViewController.modalPresentationStyle = .fullScreen
+        
+        present(webViewController, animated: true)
+    }
+    
+    private func setupViews() {
+        [screenLogoImageView, loginButton].forEach {
+            $0.translatesAutoresizingMaskIntoConstraints = false
+            view.addSubview($0)
         }
     }
+    
+    private func setupСonstraints(){
+        NSLayoutConstraint.activate([
+            
+            screenLogoImageView.heightAnchor.constraint(equalToConstant: 60),
+            screenLogoImageView.widthAnchor.constraint(equalToConstant: 60),
+            screenLogoImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            screenLogoImageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            
+            loginButton.heightAnchor.constraint(equalToConstant: 48),
+            loginButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
+            loginButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
+            loginButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -124)
+        ])
+    }
+    
 
 }
 
+    // MARK: - Extensions
+
 extension AuthViewController: WebViewViewControllerDelegate {
     func webViewViewController(_ vc: WebViewViewController, didAuthenticateWithCode code: String) {
+        
         UIBlockingProgressHUD.show()
-
         OAuth2Service.shared.fetchOAuthToken(code: code) { [weak self] result in
-            guard let self = self else { return }
-
+            guard let self else {return}
+            
             UIBlockingProgressHUD.dismiss()
-
             switch result {
             case .success(let token):
-                self.oauth2TokenStorage.token = token.token
-                self.performSegue(withIdentifier: self.showWebViewSegueIdentifier, sender: nil) 
+                self.tokenStorage.token = token.token
+                self.delegate?.authViewController(self, didAuthenticateWithCode: code)
             case .failure(let error):
-                print("[AuthViewController delegate]: ошибка сохранения токена. Ошибка: \(error)")
+                print("[AuthViewController (delegate)]: error saving token. Error: \(error)")
             }
         }
     }
     
     func webViewViewControllerDidCancel(_ vc: WebViewViewController) {
         vc.dismiss(animated: true)
-        
     }
-            
-    
-
-    
 }
-
