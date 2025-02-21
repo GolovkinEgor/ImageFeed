@@ -16,7 +16,7 @@ final class SplashViewController: UIViewController {
     
     private let vectorImageView: UIImageView = {
         let view = UIImageView()
-        let image = UIImage(named: "Vector")
+        let image = UIImage(named: "Image")
         view.image = image
         return view
     }()
