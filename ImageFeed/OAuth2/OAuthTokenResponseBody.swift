@@ -3,7 +3,7 @@ struct OAuthTokenResponseBody: Decodable {
 
 
     enum CodingKeys: String, CodingKey {
-        case token = "access_token"
+        case token = "accessToken"
         
     }
 }
