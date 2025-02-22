@@ -105,10 +105,10 @@
             </objects>
             <point key="canvasLocation" x="92.753623188405811" y="-638.16964285714278"/>
         </scene>
-        <!--Tab Bar Controller-->
+        <!--TabBarController-->
         <scene sceneID="Dvo-nt-3ev">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarViewController" id="y7N-3y-Pfb" customClass="TabBarController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="y7N-3y-Pfb" userLabel="TabBarController" customClass="TabBarController" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4KO-5F-DEb">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>

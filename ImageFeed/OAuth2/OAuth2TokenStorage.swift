@@ -11,10 +11,12 @@ final class OAuth2TokenStorage {
     
     var token: String? {
         get {
+            
             let token: String? = KeychainWrapper.standard.string(forKey: Keys.token.rawValue)
             return token
         }
         set {
+            //storage.set(newValue, forKey: Keys.token.rawValue)
             guard let token = newValue else {return}
             let isSuccess = KeychainWrapper.standard.set(token, forKey: Keys.token.rawValue)
             guard isSuccess else {
@@ -23,5 +25,7 @@ final class OAuth2TokenStorage {
             }
         }
     }
-    let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: Keys.token.rawValue)
+    func removeToken(){ //для проверки авторизации
+        let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: Keys.token.rawValue)
+    }
 }

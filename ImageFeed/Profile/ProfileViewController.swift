@@ -12,7 +12,7 @@ final class ProfileViewController: UIViewController {
     
     private let profileImageView: UIImageView = {
         let view = UIImageView()
-        let image = UIImage(named: "UserImage")
+        let image = UIImage(named: "imageUser")
         view.image = image
         return view
     }()

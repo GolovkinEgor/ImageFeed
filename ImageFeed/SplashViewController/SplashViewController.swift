@@ -72,7 +72,7 @@ final class SplashViewController: UIViewController {
     
     private func setupСonstraints(){
         NSLayoutConstraint.activate([
-            // кнопка логаута
+            
             vectorImageView.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
             vectorImageView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
         ])

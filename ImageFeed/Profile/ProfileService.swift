@@ -20,6 +20,7 @@ struct Profile {
     let name: String
     let loginName: String
     let bio: String?
+    
 }
 
 extension Profile {
@@ -57,13 +58,20 @@ final class ProfileService {
     }
     
     func fetchProfile(handler: @escaping (Result<ProfileResult, Error>) -> Void) {
-        
         assert(Thread.isMainThread)
-        task?.cancel()
-        guard let token = OAuth2TokenStorage().token else { return }
-        guard let request = makeProfileURLRequest(token: token) else { return }
         
-        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+        task?.cancel()
+        
+        guard let token = OAuth2TokenStorage().token else {
+            return
+        }
+        
+        guard let request = makeProfileURLRequest(token: token) else {
+            return
+        }
+
+        
+        self.task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
             switch result {
             case .success(let profileResult):
                 handler(.success(profileResult))
@@ -72,6 +80,9 @@ final class ProfileService {
                 handler(.failure(error))
             }
         }
-        task.resume()
+        
+        
+        self.task?.resume()
     }
+
 }
