@@ -1,10 +1,14 @@
 
 import Foundation
 
-enum NetworkError: Error {  // 1
+enum NetworkError: Error {
     case httpStatusCode(Int)
     case urlRequestError(Error)
     case urlSessionError
+    case invalidRequest
+    case decodingError(Error)
+    case noData
+    case networkError(Error)
 }
 
 extension URLSession {
@@ -44,7 +48,6 @@ extension URLSession {
         completion: @escaping (Result<T, Error>) -> Void
     ) -> URLSessionTask {
         let decoder = JSONDecoder()
-        decoder.keyDecodingStrategy = .convertFromSnakeCase
         
         let task = data(for: request) { (result: Result<Data, Error>) in
             switch result {
