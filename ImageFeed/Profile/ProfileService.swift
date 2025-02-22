@@ -71,10 +71,13 @@ final class ProfileService {
         }
 
         
-        self.task = urlSession.objectTask(for: request) { [weak self] (result: Result<ProfileResult, Error>) in
+         let task = urlSession.objectTask(for: request) { [weak self] (result:
+            Result<ProfileResult, Error>) in
             switch result {
             case .success(let profileResult):
                 handler(.success(profileResult))
+                self?.profile = Profile(result: profileResult)
+                OAuth2TokenStorage().token = token
             case .failure(let error):
                 print("[fetchProfile()]: error creating URLSessionTask. Error: \(error)")
                 handler(.failure(error))
@@ -82,7 +85,7 @@ final class ProfileService {
         }
         
         
-        self.task?.resume()
+        task.resume()
     }
 
 }

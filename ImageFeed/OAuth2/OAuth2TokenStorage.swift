@@ -6,7 +6,7 @@ final class OAuth2TokenStorage {
     private let storage: UserDefaults = .standard
     
     private enum Keys: String {
-        case token = "token"
+        case token = "AuthToken"
     }
     
     var token: String? {
@@ -16,7 +16,7 @@ final class OAuth2TokenStorage {
             return token
         }
         set {
-            //storage.set(newValue, forKey: Keys.token.rawValue)
+            
             guard let token = newValue else {return}
             let isSuccess = KeychainWrapper.standard.set(token, forKey: Keys.token.rawValue)
             guard isSuccess else {
@@ -25,7 +25,7 @@ final class OAuth2TokenStorage {
             }
         }
     }
-    func removeToken(){ //для проверки авторизации
+    func removeToken(){
         let removeSuccessful: Bool = KeychainWrapper.standard.removeObject(forKey: Keys.token.rawValue)
     }
 }

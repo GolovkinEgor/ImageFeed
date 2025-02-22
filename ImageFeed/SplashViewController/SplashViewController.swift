@@ -108,8 +108,8 @@ final class SplashViewController: UIViewController {
                 let profile = Profile(result: profileResult)
                 self.profileService.profile = profile
                 self.fetchProfileImage(profile: profile)
-                
                 self.switchToTabBarController()
+                
             case .failure(let error):
                 self.showLoginAlert(error: error)
                 print("[fetchProfile()]: error getting profile. Error: \(error)")

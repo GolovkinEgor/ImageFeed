@@ -108,7 +108,7 @@
         <!--TabBarController-->
         <scene sceneID="Dvo-nt-3ev">
             <objects>
-                <tabBarController storyboardIdentifier="TabBarViewController" id="y7N-3y-Pfb" userLabel="TabBarController" customClass="TabBarController" sceneMemberID="viewController">
+                <tabBarController storyboardIdentifier="TabBarViewController" id="y7N-3y-Pfb" userLabel="TabBarController" customClass="TabBarController" customModule="ImageFeed" customModuleProvider="target" sceneMemberID="viewController">
                     <tabBar key="tabBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="4KO-5F-DEb">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="49"/>
                         <autoresizingMask key="autoresizingMask"/>
