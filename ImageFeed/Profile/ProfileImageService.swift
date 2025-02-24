@@ -3,7 +3,7 @@ import UIKit
 
 struct UserResult: Decodable {
     let profileImage: ProfileImage?
-
+    
     enum CodingKeys: String, CodingKey {
         case profileImage = "profile_image"
     }
@@ -45,12 +45,12 @@ final class ProfileImageService {
             return nil
         }
     }
-
+    
     
     func fetchProfileImageURL(username: String?, handler: @escaping (Result<UserResult, Error>) -> Void) {
         assert(Thread.isMainThread)
         task?.cancel()
-
+        
         guard let token = OAuth2TokenStorage().token else {
             print("[fetchProfileImageURL]: Ошибка - отсутствует токен")
             return
@@ -59,29 +59,29 @@ final class ProfileImageService {
             print("[fetchProfileImageURL]: Ошибка - не удалось создать URL-запрос")
             return
         }
-
+        
         let task = urlSession.objectTask(for: request) { [weak self] (result: Result<UserResult, Error>) in
             guard let self else { return }
-
+            
             print("[fetchProfileImageURL]: Получен результат запроса: \(result)")
-
+            
             switch result {
             case .success(let userResult):
                 print("[fetchProfileImageURL]: JSON-ответ от сервера: \(userResult)")
-
+                
                 guard let profileImage = userResult.profileImage else {
                     print("[fetchProfileImageURL]: Поле `profileImage` отсутствует в ответе сервера.")
                     return
                 }
-
+                
                 guard let resultURL = profileImage.small else {
                     print("[fetchProfileImageURL]: Поле `small` в `profileImage` равно nil.")
                     return
                 }
-
+                
                 self.avatarURL = URL(string: resultURL)
                 handler(.success(userResult))
-
+                
             case .failure(let error):
                 print("[fetchProfileImageURL]: Ошибка при выполнении запроса: \(error)")
                 handler(.failure(error))
@@ -89,5 +89,5 @@ final class ProfileImageService {
         }
         task.resume()
     }
-
+    
 }

@@ -14,6 +14,8 @@ final class ProfileViewController: UIViewController {
         let view = UIImageView()
         let image = UIImage(named: "imageUser")
         view.image = image
+        view.layer.cornerRadius = 20
+        view.clipsToBounds = true
         return view
     }()
     
