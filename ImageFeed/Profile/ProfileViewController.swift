@@ -45,7 +45,7 @@ final class ProfileViewController: UIViewController {
     
     private let logoutButton: UIButton = {
         let button = UIButton(type: .custom)
-        let logoutImage =  UIImage(named: "LogoutImage")
+        let logoutImage =  UIImage(named: "LogOut")
         button.setImage(logoutImage, for: button.state)
         button.addTarget(
             nil,

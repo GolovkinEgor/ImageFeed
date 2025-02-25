@@ -25,6 +25,7 @@ final class AuthViewController: UIViewController {
             for: .touchUpInside
         )
         button.setTitle("Войти", for: button.state)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 17.0, weight: .bold)
         button.setTitleColor(.backGroundFigma, for: button.state)
         button.backgroundColor = .white
         button.layer.cornerRadius = 16
@@ -80,7 +81,7 @@ final class AuthViewController: UIViewController {
             loginButton.heightAnchor.constraint(equalToConstant: 48),
             loginButton.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -16),
             loginButton.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 16),
-            loginButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 640)
+            loginButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -124)
         ])
     }
     
