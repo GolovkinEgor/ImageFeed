@@ -56,29 +56,35 @@ final class ProfileViewController: UIViewController {
     }()
     
     // MARK: - Overrides Methods
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
         
-        if let profile = profileService.profile {
-            updateProfileDetails(profile: profile)
-        }
         
-        profileImageServiceObserver = NotificationCenter.default
-                 .addObserver(
-                     forName: ProfileImageService.didChangeNotification,
-                     object: nil,
-                     queue: .main
-                 ) { [weak self] _ in
-                     self?.updateAvatar()
-                 }
-             updateAvatar()
-        
-        setupUI()
-        setupViews()
-        setupСonstraints()
+        let radius = profileImageView.frame.width / 2
+        profileImageView.layer.cornerRadius = radius
     }
     
+    override func viewDidLoad() {
+            super.viewDidLoad()
+            
+            if let profile = profileService.profile {
+                updateProfileDetails(profile: profile)
+            }
+            
+            profileImageServiceObserver = NotificationCenter.default
+                     .addObserver(
+                         forName: ProfileImageService.didChangeNotification,
+                         object: nil,
+                         queue: .main
+                     ) { [weak self] _ in
+                         self?.updateAvatar()
+                     }
+            updateAvatar()
+            
+            setupUI()
+            setupViews()
+            setupСonstraints()
+        }
     // MARK: - Private Methods
     
     @objc
@@ -94,13 +100,13 @@ final class ProfileViewController: UIViewController {
     }
     
     private func updateAvatar(){
-        guard let profileImageURL = ProfileImageService.shared.avatarURL else { return }
-        let processor = RoundCornerImageProcessor(cornerRadius: 20)
-        profileImageView.kf.setImage(with: profileImageURL,
-                                     placeholder: UIImage(named: "placeholder.jpeg"),
-                                     options: [.processor(processor)])
-        
-    }
+            guard let profileImageURL = ProfileImageService.shared.avatarURL else { return }
+            let processor = RoundCornerImageProcessor(cornerRadius: 20)
+            profileImageView.kf.setImage(with: profileImageURL,
+                                         placeholder: UIImage(named: "placeholder.jpeg"),
+                                         options: [.processor(processor)])
+            
+        }
     private func setupUI() {
         self.view.backgroundColor = .backGroundFigma
     }

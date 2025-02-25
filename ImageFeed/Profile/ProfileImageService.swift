@@ -51,6 +51,10 @@ final class ProfileImageService {
         assert(Thread.isMainThread)
         task?.cancel()
         
+        NotificationCenter.default.post(name: ProfileImageService.didChangeNotification,
+                                                object: self,
+                                                userInfo: ["URL": self.avatarURL as Any])
+        
         guard let token = OAuth2TokenStorage().token else {
             print("[fetchProfileImageURL]: Ошибка - отсутствует токен")
             return
