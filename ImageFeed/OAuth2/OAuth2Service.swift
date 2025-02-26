@@ -1,67 +1,63 @@
+
 import Foundation
 
+enum AuthServiceError: Error {
+    case invalidRequest
+}
+
 final class OAuth2Service {
+    
+    private let urlSession = URLSession.shared
+    
+    private var task: URLSessionTask?
+    private var lastCode: String?
+    
     static let shared = OAuth2Service()
+    private let jsonDecoder = JSONDecoder()
+    
     private init() {}
-
-    func fetchAuthToken(code: String, completion: @escaping (Result<String, Error>) -> Void) {
-
+    
+    private func makeOAuthTokenRequest(code: String) -> URLRequest? {
+        if let baseURL = URL(string: "https://unsplash.com"),
+           let url = URL(
+            string: "/oauth/token"
+            + "?client_id=\(Constants.accessKey)"
+            + "&&client_secret=\(Constants.secretKey)"
+            + "&&redirect_uri=\(Constants.redirectURI)"
+            + "&&code=\(code)"
+            + "&&grant_type=authorization_code",
+            relativeTo: baseURL)
+        {
+            var request = URLRequest(url: url)
+            request.httpMethod = "POST"
+            return request
+        } else {
+            print("[makeOAuthTokenRequest()]: error creating token request")
+            return nil
+        }
+    }
+    
+    func fetchOAuthToken(code: String, handler: @escaping (Result<OAuthTokenResponseBody, Error>) -> Void) {
         
-        
-        guard var urlComponents = URLComponents(string: "https://unsplash.com/oauth/token") else {
-            print("[OAuth2Service]: Ошибка записи urlComponents")
+        assert(Thread.isMainThread)
+        guard lastCode != code else {
+            handler(.failure(AuthServiceError.invalidRequest))
             return
         }
+        task?.cancel()
+        lastCode = code
         
-        urlComponents.queryItems = [
-            URLQueryItem(name: "client_id", value: Constants.accessKey),
-            URLQueryItem(name: "client_secret", value: Constants.secretKey),
-            URLQueryItem(name: "redirect_uri", value: Constants.redirectURI),
-            URLQueryItem(name: "code", value: code),
-            URLQueryItem(name: "grant_type", value: "authorization_code")
-        ]
+        guard let request = makeOAuthTokenRequest(code: code) else { return }
         
-        guard let url = urlComponents.url else {
-            print("[OAuth2Service]: Ошибка записи urlComponents")
-            return
-        }
-        
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let error = error {
-                DispatchQueue.main.async {
-                    print("[OAuth2Service]: ошибка \(error.localizedDescription)")
-                    completion(.failure(error))
-                }
-                return
-            }
-            
-            guard let httpResponse = response as? HTTPURLResponse,
-                  (200...299).contains(httpResponse.statusCode),
-                  let data = data else {
-                DispatchQueue.main.async {
-                    print("[OAuth2Service]: ошибка выполнения запроса")
-                    completion(.failure(NSError(domain: "Invalid response", code: 0, userInfo: nil)))
-                }
-                return
-            }
-            
-            do {
-                let tokenResponse = try JSONDecoder().decode(OAuthTokenResponseBody.self, from: data)
-                DispatchQueue.main.async {
-                    completion(.success(tokenResponse.accessToken))
-                }
-            } catch {
-                DispatchQueue.main.async {
-                    print("[OAuth2Service]: ошибка декодирования \(error.localizedDescription)")
-                    completion(.failure(error))
-                }
+        let task = urlSession.objectTask(for: request) { [weak self] (result: Result<OAuthTokenResponseBody, Error>) in
+            switch result {
+            case .success(let decodingToken):
+                handler(.success(decodingToken))
+            case .failure(let error):
+                print("[fetchOAuthToken()]: error creating URLSessionTask. Error: \(error)")
+                handler(.failure(error))
             }
         }
         task.resume()
     }
 }
-
-
