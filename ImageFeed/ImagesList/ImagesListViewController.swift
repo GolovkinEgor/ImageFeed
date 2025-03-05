@@ -1,16 +1,9 @@
-//
-//  ViewController.swift
-//  ImageFeed
-//
-//  Created by Alesia Matusevich on 21/11/2024.
-//
 
 import UIKit
 import Kingfisher
 
-final class ImagesListViewController: UIViewController, ImagesListCellDelegate {
-    func imageListCellDidTapLike(_ cell: ImagesListCell) {
-    }
+final class ImagesListViewController: UIViewController {
+    
     
     
     // MARK: - Private Properties
@@ -177,10 +170,35 @@ extension ImagesListViewController: UITableViewDataSource {
                 cell.dateLabel.text = ""
             }
         
-            let likeImage = UIImage(named: photo.isLiked ? "LikeActive" : "LikeNoActive")
+            let likeImage = UIImage(named: photo.isLiked ? "Active" : "NoActive")
             cell.likeButton.setImage(likeImage, for: .normal)
         }
     }
 }
-
-
+extension ImagesListViewController: ImagesListCellDelegate {
+    func imageListCellDidTapLike(_ cell: ImagesListCell) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let photo = photos[indexPath.row]
+        
+        UIBlockingProgressHUD.show()
+        let isPhotoLiked = !photo.isLiked
+        
+        imagesListService.changeLike(photoId: photo.id, isLike: isPhotoLiked) { [weak self] result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    guard let self = self else { return }
+                    
+                    if let index = self.photos.firstIndex(where: { $0.id == photo.id }) {
+                        self.photos[index].isLiked = isPhotoLiked
+                    }
+                    cell.setIsLiked(isLiked: isPhotoLiked)
+                    UIBlockingProgressHUD.dismiss()
+                case .failure:
+                    print("Error")
+                    UIBlockingProgressHUD.dismiss()
+                }
+            }
+        }
+    }
+}

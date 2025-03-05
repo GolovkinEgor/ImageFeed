@@ -1,9 +1,4 @@
-//
-//  ImagesListService.swift
-//  ImageFeed
-//
-//  Created by Alesia Matusevich on 30/01/2025.
-//
+
 
 import UIKit
 
@@ -98,6 +93,51 @@ final class ImagesListService {
         
         return request
     }
+    private func likePhoto(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+            guard let url = URL(string: "https://api.unsplash.com/photos/\(photoId)/like") else {
+                print("[likePhoto()]: error creating profile URL request")
+                return }
+            guard let token = tokenStorage.token else {
+                print("[likePhoto()]: error receiving token")
+                return }
+            
+            var request = URLRequest(url: url)
+            if isLike {
+                request.httpMethod = "POST"
+            } else {
+                request.httpMethod = "DELETE"
+            }
+            request.setValue("Bearer \(token)", forHTTPHeaderField: "Authorization")
+            
+            let task = URLSession.shared.dataTask(with: request) { data, response, error in
+                if let error = error {
+                    print("[ProfileService]: error liking photo. Error: \(error)")
+                    completion(.failure(error))
+                    return
+                }
+                self.updatePhoto(photoId: photoId)
+                completion(.success(()))
+            }
+            task.resume()
+        }
+    private func updatePhoto(photoId: String) -> Void {
+           if let index = self.photos.firstIndex(where: { $0.id == photoId }) {
+               
+               let photo = self.photos[index]
+               let newPhoto = Photo(
+                   id: photo.id,
+                   size: photo.size,
+                   createdAt: photo.createdAt,
+                   welcomeDescription: photo.welcomeDescription,
+                   regularImageURL: photo.regularImageURL,
+                   fullImageURL: photo.fullImageURL,
+                   thumbImageURL: photo.thumbImageURL,
+                   isLiked: !photo.isLiked
+               )
+               self.photos[index] = newPhoto
+           }
+       }
+    
     
     
     
@@ -142,7 +182,12 @@ final class ImagesListService {
         }
         task?.resume()
     }
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void) {
+           likePhoto(photoId: photoId, isLike: isLike, completion: completion)
+       }
     
     
-    
+    func deletePhotos(){
+        photos.removeAll()
+    }
 }

@@ -87,5 +87,7 @@ final class ProfileService {
         
         task.resume()
     }
-
+    func deleteProfile(){
+        profile = nil
+    }
 }
