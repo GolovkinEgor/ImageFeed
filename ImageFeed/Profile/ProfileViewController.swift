@@ -90,7 +90,7 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapButton() {
-        let alert = UIAlertController(title: "До скорых встреч!", message: "Хотите выйти?", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Пока, пока!", message: "Уверены,что хотите выйти?", preferredStyle: .alert)
         
         let yesAlertAction = UIAlertAction(title: "Да", style: .default){ _ in
             self.profileLogOutService.logout()
