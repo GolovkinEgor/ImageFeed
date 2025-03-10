@@ -9,6 +9,7 @@ final class ProfileViewController: UIViewController {
     
     private var userName: String?
     private var profileImageServiceObserver: NSObjectProtocol?
+    private let profileLogOutService = ProfileLogoutService.shared
     
     private let profileImageView: UIImageView = {
         let view = UIImageView()
@@ -59,7 +60,7 @@ final class ProfileViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        
+
         let radius = profileImageView.frame.width / 2
         profileImageView.layer.cornerRadius = radius
     }
@@ -89,7 +90,22 @@ final class ProfileViewController: UIViewController {
     
     @objc
     private func didTapButton() {
-        // TODO: Добавить обработчик нажатия кнопки логаута
+        let alert = UIAlertController(title: "Пока, пока!", message: "Уверены,что хотите выйти?", preferredStyle: .alert)
+        
+        let yesAlertAction = UIAlertAction(title: "Да", style: .default){ _ in
+            self.profileLogOutService.logout()
+            
+            guard let window = UIApplication.shared.windows.first else{
+                fatalError("[ProfileViewController]-didTapButton guard let window")
+            }
+            let splashViewController = SplashViewController()
+            window.rootViewController = splashViewController
+        }
+        let noAlertAction = UIAlertAction(title: "Нет", style: .default, handler: nil)
+        alert.addAction(yesAlertAction)
+        alert.addAction(noAlertAction)
+        
+        present(alert, animated: true, completion: nil)
     }
     
     private func updateProfileDetails(profile: Profile){

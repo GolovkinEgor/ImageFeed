@@ -44,7 +44,7 @@ final class ProfileService {
     private init() {}
     
     func makeProfileURLRequest(token: String) -> URLRequest?{
-        if let baseURL = Constants.defaultBaseURL,
+        if let baseURL = URL(string: Constants.defaultBaseURL.absoluteString),
            let url = URL(string: "/me", relativeTo: baseURL) {
             var request = URLRequest(url: url)
             request.httpMethod = "GET"
@@ -87,5 +87,7 @@ final class ProfileService {
         
         task.resume()
     }
-
+    func deleteProfile(){
+        profile = nil
+    }
 }

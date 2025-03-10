@@ -33,7 +33,7 @@ final class ProfileImageService {
     
     func makeProfileImageURLRequest(username: String?, token: String) -> URLRequest? {
         if let username = username,
-           let baseURL = Constants.defaultBaseURL,
+           let baseURL = URL(string: Constants.defaultBaseURL.absoluteString),
            let url = URL(string: "/users/\(username)", relativeTo: baseURL) {
             
             var request = URLRequest(url: url)
@@ -93,5 +93,7 @@ final class ProfileImageService {
         }
         task.resume()
     }
-    
+    func deleteImage(){
+        avatarURL = nil
+    }
 }
