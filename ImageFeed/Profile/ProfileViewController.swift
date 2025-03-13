@@ -2,7 +2,18 @@
 import UIKit
 import Kingfisher
 
-final class ProfileViewController: UIViewController {
+public protocol ProfileViewControllerProtocol: AnyObject {
+    var presenter: ProfilePresenterProtocol? { get set }
+    func updateAvatarImage(with url: URL)
+    //func showLogoutAlert()
+    func updateProfileDetails(profile: Profile)
+}
+
+final class ProfileViewController: UIViewController & ProfileViewControllerProtocol {
+    var presenter: (any ProfilePresenterProtocol)?
+    
+    
+    
     
     // MARK: - Private Properties
     private let profileService = ProfileService.shared
@@ -53,6 +64,7 @@ final class ProfileViewController: UIViewController {
             action: #selector(Self.didTapButton),
             for: .touchUpInside
         )
+        button.accessibilityIdentifier = "logoutButton"
         return button
     }()
     
@@ -66,26 +78,12 @@ final class ProfileViewController: UIViewController {
     }
     
     override func viewDidLoad() {
-            super.viewDidLoad()
-            
-            if let profile = profileService.profile {
-                updateProfileDetails(profile: profile)
-            }
-            
-            profileImageServiceObserver = NotificationCenter.default
-                     .addObserver(
-                         forName: ProfileImageService.didChangeNotification,
-                         object: nil,
-                         queue: .main
-                     ) { [weak self] _ in
-                         self?.updateAvatar()
-                     }
-            updateAvatar()
-            
-            setupUI()
-            setupViews()
-            setupСonstraints()
-        }
+           super.viewDidLoad()
+           presenter?.viewDidLoad()
+           setupUI()
+           setupViews()
+           setupСonstraints()
+       }
     // MARK: - Private Methods
     
     @objc
@@ -108,21 +106,20 @@ final class ProfileViewController: UIViewController {
         present(alert, animated: true, completion: nil)
     }
     
-    private func updateProfileDetails(profile: Profile){
+     func updateProfileDetails(profile: Profile){
         userName = profile.username
         userNameLabel.text = profile.name
         userLoginLabel.text = profile.loginName
         descriptionLabel.text = profile.bio
     }
     
-    private func updateAvatar(){
-            guard let profileImageURL = ProfileImageService.shared.avatarURL else { return }
-            let processor = RoundCornerImageProcessor(cornerRadius: 20)
-            profileImageView.kf.setImage(with: profileImageURL,
-                                         placeholder: UIImage(named: "placeholder.jpeg"),
-                                         options: [.processor(processor)])
-            
-        }
+    func updateAvatarImage(with url: URL) {
+        profileImageView.kf.indicatorType = .activity
+        let processor = RoundCornerImageProcessor(cornerRadius: 20)
+        profileImageView.kf.setImage(with: url,
+                                     placeholder: UIImage(named: "placeholder.jpeg"),
+                                     options: [.processor(processor)])
+    }
     private func setupUI() {
         self.view.backgroundColor = .backGroundFigma
     }

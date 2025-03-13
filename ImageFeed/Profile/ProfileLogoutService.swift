@@ -10,7 +10,7 @@ final class ProfileLogoutService {
    func logout() {
        ProfileService.shared.deleteProfile()
        ProfileImageService.shared.deleteImage()
-       ImagesListService().deletePhotos()
+       ImagesListService.shared.deletePhotos()
        OAuth2TokenStorage().removeToken()
       cleanCookies()
    }

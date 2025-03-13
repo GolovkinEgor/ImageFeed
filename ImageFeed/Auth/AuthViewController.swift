@@ -52,15 +52,21 @@ final class AuthViewController: UIViewController {
     
     @objc
     private func didTapButton() {
-        
-        let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
-        
-        guard let webViewController = storyboard.instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController else {return}
-        webViewController.delegate = self
-        webViewController.modalPresentationStyle = .fullScreen
-        
-        present(webViewController, animated: true)
-    }
+            
+            let storyboard = UIStoryboard(name: "Main", bundle: Bundle.main)
+            
+            guard let webViewController = storyboard.instantiateViewController(withIdentifier: "WebViewViewController") as? WebViewViewController else {return}
+            webViewController.delegate = self
+            webViewController.modalPresentationStyle = .fullScreen
+            
+            let authHelper = AuthHelper()
+            let webViewPresenter = WebViewPresenter(authHelper: authHelper)
+            webViewController.presenter = webViewPresenter
+            webViewPresenter.view = webViewController
+            //webViewViewController.delegate = self
+            
+            present(webViewController, animated: true)
+        }
     
     private func setupViews() {
         [screenLogoImageView, loginButton].forEach {
