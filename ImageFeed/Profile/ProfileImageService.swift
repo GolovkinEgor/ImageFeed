@@ -17,7 +17,11 @@ struct ProfileImage: Decodable {
     }
 }
 
-final class ProfileImageService {
+public protocol ProfileImageServiceProtocol: AnyObject{
+    var avatarURL : URL? {get}
+}
+
+final class ProfileImageService:ProfileImageServiceProtocol {
     
     static let shared = ProfileImageService()
     static let didChangeNotification = Notification.Name("ProfileImageProviderDidChange")

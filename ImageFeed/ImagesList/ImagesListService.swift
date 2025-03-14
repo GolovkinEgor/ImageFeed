@@ -2,7 +2,7 @@
 
 import UIKit
 
-struct PhotoResult: Decodable {
+public struct PhotoResult: Decodable {
     let id: String
     let createdAt: String
     let width: Int
@@ -30,7 +30,7 @@ struct UrlResult: Decodable {
     let thumb: String
 }
 
-struct Photo {
+public struct Photo {
     let id: String
     let size: CGSize
     let createdAt: Date?
@@ -55,8 +55,13 @@ extension Photo {
                   isLiked: photo.likedByUser)
     }
 }
+public protocol ImagesListServiceProtocol: AnyObject {
+    func fetchPhotosNextPage(handler: @escaping (Result<[PhotoResult], Error>) -> Void)
+    var photos: [Photo] { get }
+    func changeLike(photoId: String, isLike: Bool, _ completion: @escaping (Result<Void, Error>) -> Void)
+}
 
-final class ImagesListService {
+final class ImagesListService: ImagesListServiceProtocol{
     
     // MARK: - Public Properties
     
@@ -68,11 +73,12 @@ final class ImagesListService {
     private let urlSession = URLSession.shared
     private var task: URLSessionTask?
     
-    private(set) var photos: [Photo] = []
+    var photos: [Photo] = []
     private var lastLoadedPage: Int = 0
     private let perPage: String = "10"
     private var previousID = ""
-    
+    static let shared = ImagesListService()
+    private init() {}
     // MARK: - Private Methods
     
     private func makeImagesListURLRequest() -> URLRequest?{
@@ -93,7 +99,7 @@ final class ImagesListService {
         
         return request
     }
-    private func likePhoto(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
+    func likePhoto(photoId: String, isLike: Bool, completion: @escaping (Result<Void, Error>) -> Void) {
             guard let url = URL(string: "https://api.unsplash.com/photos/\(photoId)/like") else {
                 print("[likePhoto()]: error creating profile URL request")
                 return }
