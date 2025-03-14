@@ -33,6 +33,7 @@ final class WebViewViewController: UIViewController & WebViewViewControllerProto
     private let loginWebView: WKWebView = {
         let webView = WKWebView()
         webView.backgroundColor = .white
+        webView.accessibilityIdentifier = "UnsplashWebView"
         return webView
     }()
     
