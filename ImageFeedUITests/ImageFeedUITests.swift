@@ -12,6 +12,7 @@ final class ImageFeedUITests: XCTestCase {
     
     func testAuth() throws {
         // тестируем сценарий авторизации
+        
         app.buttons["Authenticate"].tap()
         
         let webView = app.webViews["UnsplashWebView"]
@@ -68,7 +69,7 @@ final class ImageFeedUITests: XCTestCase {
         // Zoom out
         image.pinch(withScale: 0.5, velocity: -1)
         
-        let navBackButtonWhiteButton = app.buttons["NavBackButton"]
+        let navBackButtonWhiteButton = app.buttons["backButton"]
         navBackButtonWhiteButton.tap()
     }
     
