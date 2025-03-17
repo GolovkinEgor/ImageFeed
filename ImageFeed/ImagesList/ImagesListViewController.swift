@@ -2,15 +2,24 @@
 import UIKit
 import Kingfisher
 
-final class ImagesListViewController: UIViewController {
+public protocol ImagesListControllerProtocol: AnyObject {
+    var presenter: ImagesListPresenterProtocol? { get set }
+    var photos: [Photo] { get }
+    func updateTableViewAnimated()
+}
+
+
+final class ImagesListViewController: UIViewController & ImagesListControllerProtocol {
+    var presenter: (any ImagesListPresenterProtocol)?
+    
     
     
     
     // MARK: - Private Properties
     
-    private let showSingleImageSegueIdentifier = "ShowSingleImage"
-    private var photos: [Photo] = []
-    private let imagesListService = ImagesListService()
+    let showSingleImageSegueIdentifier = "ShowSingleImage"
+    var photos: [Photo] = []
+    private let imagesListService = ImagesListService.shared
     
     private lazy var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()
@@ -27,19 +36,10 @@ final class ImagesListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        presenter?.viewDidLoad()
         
-        NotificationCenter.default
-            .addObserver(
-                forName: ImagesListService.didChangeNotification,
-                object: nil,
-                queue: .main
-            ) { [weak self] _ in
-                guard let self = self else { return }
-                updateTableViewAnimated()
-            }
-        loadedImages()
+        presenter?.loadedImages()
     }
-    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == showSingleImageSegueIdentifier {
             guard
@@ -67,7 +67,7 @@ final class ImagesListViewController: UIViewController {
     
     // MARK: - Private Methods
     
-    private func updateTableViewAnimated() {
+    func updateTableViewAnimated() {
         let oldCount = photos.count
         let newCount = imagesListService.photos.count
         photos = imagesListService.photos
@@ -169,7 +169,7 @@ extension ImagesListViewController: UITableViewDataSource {
             } else {
                 cell.dateLabel.text = ""
             }
-        
+            
             let likeImage = UIImage(named: photo.isLiked ? "Active" : "NoActive")
             cell.likeButton.setImage(likeImage, for: .normal)
         }
